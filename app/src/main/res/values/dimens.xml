@@ -1,0 +1,28 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_double_all_margin">8dp</dimen>
+    <dimen name="activity_all_margin">4dp</dimen>
+    <dimen name="activity_horizontal_margin">6dp</dimen>
+    <dimen name="activity_vertical_margin">6dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">190dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!--CardView xml Size-->
+    <dimen name="mCardCornerRadius">4dp</dimen>
+    <dimen name="mCardElevation">4dp</dimen>
+    <dimen name="text_margin">10dp</dimen>
+
+    <!--Real time dash board-->
+    <dimen name="real_time_layout_weight_sum">6</dimen>
+    <dimen name="real_time_text_weight">1</dimen>
+    <dimen name="real_time_progress_weight">4</dimen>
+    <dimen name="real_time_map_height">300dp</dimen>
+
+    <dimen name="custom_marker_size">50dp</dimen>
+    <dimen name="custom_marker_padding">2dp</dimen>
+
+    <!--Real Time Data Detail View-->
+    <dimen name="real_time_detail_wifi">14dp</dimen>
+
+</resources>

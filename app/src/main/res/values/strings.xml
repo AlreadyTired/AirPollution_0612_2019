@@ -1,0 +1,179 @@
+<resources>
+    <!--qualcomminst.com:(portNumber)/serverapi-->
+    <!--<string name="air_url">http://somnium.me:8080/serverapi</string>-->
+    <!--<string name="heart_url">http://somnium.me:8080/serverdatatran</string>-->
+    <string name="heart_url">http://somnium.me:5050/serverapi</string>
+    <string name="air_url">http://somnium.me:5050/serverapi</string>
+
+    <string name="app_name">AirPollution</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Welcome</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Strings related to Error-->
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is invalid</string>
+    <string name="error_invalid_new_password">The new password must be different to current password</string>
+    <string name="error_invalid_repeat_password">This repeat password is different to new password</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_server_not_working">Connection failure due to network error</string>
+    <string name="error_incorrect_user_info">Incorrect User Information</string>
+    <string name="error_result_other">Unknown error</string>
+    <string name="error_authentication_code_length">Authentication code is 20 characters</string>
+    <string name="error_incorrect_authentication">Incorrect authentication code</string>
+    <string name="error_invalid_mac_address">This mac address is invalid</string>
+
+    <!-- Strings related to signIn -->
+    <string name="prompt_email">Email Address</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+
+    <!-- Strings related to forgot password -->
+    <string name="forgot_password"><u>Forgot your Password?</u></string>
+    <string name="title_activity_forgot_password">Reset password</string>
+    <string name="forgot_email">Email Address</string>
+    <string name="forgot_first_name">First Name</string>
+    <string name="forgot_last_name">Last Name</string>
+    <string name="forgot_reset">Reset Password</string>
+    <string name="forgot_birth_date">Birth Date</string>
+
+    <!-- Strings related to Sign Up -->
+    <string name="sign_up"><u>Sign Up</u></string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="sign_up_string">Don\'t have an account?</string>
+    <string name="sign_up_email">Email Address</string>
+    <string name="sign_up_first_name">First Name</string>
+    <string name="sign_up_last_name">Last Name</string>
+    <string name="sign_up_password">Password</string>
+    <string name="sign_up_repeat_password">Repeat Password</string>
+    <string name="sign_up_birth_date">Birth Date</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string-array name="gender_array">
+        <item>Female</item>
+        <item>Male</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Strings related to verification code confirm -->
+    <string name="verification_code_confirm">Verification</string>
+    <string name="authentication_code">Authentication Code</string>
+    <string name="verification_code_send">Verify</string>
+    <string name="verification_code_timeout">Verification timeout</string>
+
+    <!-- Strings related to forgot password -->
+    <string name="password_email">Email Address</string>
+    <string name="password_current_password">Current Password</string>
+    <string name="password_new_password">New Password</string>
+    <string name="password_repeat_new_password">Repeat New Password</string>
+    <string name="password_button">Password Change</string>
+
+    <!-- Strings related to Sensor Managements -->
+    <string name="sensor_managements_title">Sensor Managements</string>
+    <string name="sensor_association_title">Sensor Association</string>
+    <string name="sensor_registration_title">Sensor Registration</string>
+    <string name="sensor_association_input">Input the Sensor Wifi MAC Address</string>
+    <string name="sensor_association_label">Select sensor mobility</string>
+    <string name="sensor_dissociation_label">Select delete reason</string>
+    <string name="sensor_association_success">Congratulation! Association Success</string>
+    <string name="sensor_registration_success">Congratulation! Registration Success</string>
+    <string name="sensor_dissociation_success">Dissociation Success</string>
+    <string-array name="sensor_mobility_array">
+        <item>Stationary Sensor</item>
+        <item>Portable Sensor</item>
+    </string-array>
+    <string-array name="sensor_deregistration_reason">
+        <item>The reason is not defined</item>
+        <item>The sensor will be handed over to other users</item>
+        <item>The sensor is broken</item>
+        <item>The sensor is stolen</item>
+        <item>The incorrect information was provided in registering a sensor</item>
+
+    </string-array>
+
+    <!-- Strings related to Home -->
+    <string name="home_title">Home</string>
+
+    <!-- Strings related to User Password Change -->
+    <string name="password_change_title">Change Password</string>
+    <string name="password_change_success">Your password has changed successfully</string>
+
+    <!-- Strings related to Dialog -->
+    <string name="dialog_sign_out">Are you really want to sign out?</string>
+    <string name="dialog_congratulation">Congratulation! Sign Up Complete</string>
+    <string name="dialog_check_email">Pleas check your email</string>
+    <string name="dialog_alert_dialog">Are you sure to delete this sensor?</string>
+    <string name="dialog_keep_alive_title">Are you keep alive?</string>
+    <string name="dialog_keep_alive">Alive</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_exit">Exit</string>
+    <string name="dialog_discard">Discard</string>
+    <string name="dialog_cancel">Cancel</string>
+
+    <!--Keep alive-->
+    <string name="keep_alive_exit">The app will automatically shut down after 3 minutes.
+        Are you sure you want to exit now? </string>
+
+    <!--Label-->
+    <string name="label_user_air_quality">Real Time Air Quality</string>
+    <string name="label_air_quality_temp">Temperature</string>
+    <string name="label_real_time_map">Real Time Map</string>
+    <string name="label_heart_rate">Heart Rate</string>
+    <string name="label_cellular_mac_address">Cellular Mac Address</string>
+    <string name="label_sensor_status">Sensor Status</string>
+    <string name="label_registration_date">Registration Date</string>
+    <string name="label_sensor_mobility">Sensor Mobility</string>
+
+    <!--Real time dash board-->
+    <string name="none_sensor_btn">Try Again</string>
+    <string name="none_heart_btn">Heart Sensor Start</string>
+    <string name="air_quality_co">CO</string>
+    <string name="air_quality_so2">SO2</string>
+    <string name="air_quality_no2">NO2</string>
+    <string name="air_quality_o3">O3</string>
+    <string name="air_quality_pm25">PM2.5</string>
+    <string name="air_quality_temp">Temperature</string>
+
+    <!--Heart data Managements-->
+    <string name="heart_connect_device">Connect Device</string>
+    <string name="heart_data_chart">Real Time Chart</string>
+    <string name="heart_data_label">Heart Rate</string>
+    <string name="heart_max">Maximum HR</string>
+    <string name="heart_min">Minimum HR</string>
+    <string name="heart_history">Historical Data</string>
+    <string name="heart_history_no_data">No Data</string>
+
+    <!--Navigation Menu Label-->
+    <string name="menu_data_monitoring">Data Monitoring</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_air_quality_map">Air Quality Map</string>
+    <string name="menu_heart_rate">Heart Rate</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_sensor_managements">Sensor Managements</string>
+    <string name="menu_user_managements">User Managements</string>
+    <string name="menu_password_change">Password Change</string>
+    <string name="menu_user_deregistration">User Deregistration</string>
+    <string name="menu_sign_out">Sign Out</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_the_sensor_cellular_mac_address">Input the Sensor Cellular MAC Address</string>
+    <string name="sensor_registration">Sensor Registration</string>
+    <string name="sensor_dcd">Disconnect Sensor</string>
+    <string name="sensor_disconnect">Sensor Disconnect</string>
+    <string name="DCD_Warning">Do you want to disconnect your sensor?</string>
+    <string name="email_duplicate">This email address is invalid</string>
+    <string name="not_exist_TCI">Not exist temporary client ID</string>
+    <string name="error_NSC">Incorrect NSC</string>
+    <string name="unallocated_USN">Unallocated USN</string>
+    <string name="not_exist_email">Not Exist Email address</string>
+    <string name="not_exist_mac_address">Not exist WiFi MAC address</string>
+    <string name="unallocated_CID">Unallocated Connection ID / Sensor disconnected</string>
+    <string name="sign_in_warning">Sign In first</string>
+
+
+</resources>

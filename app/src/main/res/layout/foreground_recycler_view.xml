@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_foreground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_all_margin"
+        app:cardElevation="@dimen/mCardElevation"
+        app:cardCornerRadius="@dimen/mCardCornerRadius"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/reduced_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/item_status_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_double_all_margin"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/item_address_wifi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3.5"
+                    android:gravity="right|center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/extend_view_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_expand_more" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/extend_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <android.support.design.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorCardBack"
+                    android:layout_margin="@dimen/activity_double_all_margin"
+                    app:cardElevation="@dimen/mCardElevation"
+                    app:cardCornerRadius="@dimen/mCardCornerRadius">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:text="@string/label_cellular_mac_address"
+                            style="@style/sensor_managements_label_text"/>
+                        <TextView
+                            android:id="@+id/extend_view_cellular_mac"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:layout_margin="@dimen/text_margin"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+                    </LinearLayout>
+                </android.support.design.card.MaterialCardView>
+
+                <android.support.design.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorCardBack"
+                    android:layout_margin="@dimen/activity_double_all_margin"
+                    app:cardElevation="@dimen/mCardElevation"
+                    app:cardCornerRadius="@dimen/mCardCornerRadius">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:text="@string/label_sensor_status"
+                            style="@style/sensor_managements_label_text"/>
+                        <TextView
+                            android:id="@+id/extend_view_status_activation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:layout_margin="@dimen/text_margin"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+                    </LinearLayout>
+                </android.support.design.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+                    <android.support.design.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/colorCardBack"
+                        android:layout_margin="@dimen/activity_double_all_margin"
+                        app:cardElevation="@dimen/mCardElevation"
+                        app:cardCornerRadius="@dimen/mCardCornerRadius">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:text="@string/label_registration_date"
+                                style="@style/sensor_managements_label_text"/>
+                            <TextView
+                                android:id="@+id/extend_view_registration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:layout_margin="@dimen/text_margin"
+                                android:textAppearance="?attr/textAppearanceListItem" />
+                        </LinearLayout>
+                    </android.support.design.card.MaterialCardView>
+
+                    <android.support.design.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_double_all_margin"
+                        android:layout_marginRight="@dimen/activity_double_all_margin"
+                        android:layout_marginBottom="@dimen/activity_double_all_margin"
+                        android:layout_weight="1"
+                        android:background="@color/colorCardBack"
+                        app:cardCornerRadius="@dimen/mCardCornerRadius"
+                        app:cardElevation="@dimen/mCardElevation">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/sensor_managements_label_text"
+                                android:text="@string/label_sensor_mobility" />
+
+                            <TextView
+                                android:id="@+id/extend_view_mobility"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/text_margin"
+                                android:background="@android:color/transparent"
+                                android:textAppearance="?attr/textAppearanceListItem" />
+                        </LinearLayout>
+                    </android.support.design.card.MaterialCardView>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+</RelativeLayout>

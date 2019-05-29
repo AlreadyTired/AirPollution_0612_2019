@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--colorTheme-->
+    <!--<color name="colorPrimary">#6200EE</color>-->
+    <!--<color name="colorPrimaryVariant">#3700B3</color>-->
+    <!---->
+    <color name="colorSecondary">#03DAC5</color>
+    <color name="colorSecondaryVariant">#018786</color>
+    <color name="colorBackground">#ffffff</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorError">#C51162</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorOnBackground">#000000</color>
+    <color name="colorOnSurface">#000000</color>
+    <color name="colorOnError">#FFFFFF</color>
+
+    <!--<color name="colorPrimaryDark">@color/colorPrimaryVariant</color>-->
+    <!--<color name="colorAccent">@color/colorSecondary</color>-->
+
+
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryVariant">#00574B</color>
+    <!--<color name="colorPrimaryBright">#00cbbd</color>-->
+    <color name="colorPrimaryBright">#00b3a0</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!--cardView color-->
+    <color name="cardview_shadow_end_color">#03000000</color>
+    <color name="cardview_shadow_start_color">#37000000</color>
+
+    <color name="colorGray">#F0F0F0</color>
+    <color name="colorCardBack">#D0F0F0</color>
+
+    <!--Custom Dialog Color-->
+    <color name="colorOK">#4CAF50</color>
+    <color name="colorCancel">#D81B60</color>
+
+</resources>

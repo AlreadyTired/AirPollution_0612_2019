@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sensor_dissociation_label"
+        android:textAppearance="@style/TextAppearance.Design.Hint" />
+
+    <Spinner
+        android:layout_margin="@dimen/activity_all_margin"
+        android:id="@+id/sensorDissociationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/sensor_deregistration_reason" />
+
+</LinearLayout>

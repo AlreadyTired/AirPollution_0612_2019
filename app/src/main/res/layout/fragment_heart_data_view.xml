@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".HeartDataManagements.HeartDataViewFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <!--Real-time heart chart dashboard -->
+        <android.support.design.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/mCardCornerRadius"
+            app:cardElevation="@dimen/mCardElevation"
+            style="@style/mCardViewStyle">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heart_data_chart"
+                    android:layout_margin="5dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold"/>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/heart_line_chart"
+                    android:layout_margin="@dimen/activity_double_all_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+        </android.support.design.card.MaterialCardView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <!--Heart rate dashboard -->
+            <android.support.design.card.MaterialCardView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground = "?attr/selectableItemBackground"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:cardCornerRadius="@dimen/mCardCornerRadius"
+                app:cardElevation="@dimen/mCardElevation">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/heart_data_label"
+                        android:layout_margin="5dp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textStyle="bold"/>
+                    <include layout="@layout/real_time_heart_table"
+                        android:id="@+id/heart_real_time_txt"/>
+                </LinearLayout>
+            </android.support.design.card.MaterialCardView>
+            <!--Min max heart dashboard -->
+            <android.support.design.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="@dimen/mCardCornerRadius"
+                app:cardElevation="@dimen/mCardElevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/min_max_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="@string/heart_max"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textStyle="bold" />
+
+                    <include
+                        layout="@layout/real_time_heart_min_max"
+                        android:id="@+id/heart_min_max_txt"/>
+                </LinearLayout>
+            </android.support.design.card.MaterialCardView>
+        </LinearLayout>
+        <!--Historical heart chart dashboard -->
+        <android.support.design.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/mCardViewStyle"
+            android:layout_marginEnd="@dimen/activity_all_margin"
+            app:cardCornerRadius="@dimen/mCardCornerRadius"
+            app:cardElevation="@dimen/mCardElevation"
+            android:layout_marginBottom="@dimen/activity_all_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@string/heart_history"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold" />
+                <include
+                    layout="@layout/historical_heart_view"/>
+
+            </LinearLayout>
+        </android.support.design.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

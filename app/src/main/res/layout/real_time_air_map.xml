@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mapView"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/real_time_map_height"
+    android:layout_margin="@dimen/activity_all_margin">
+</com.google.android.gms.maps.MapView>

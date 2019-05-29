@@ -1,0 +1,114 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="mButtonStyle">
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="mCardViewStyle">
+        <item name="android:layout_marginLeft">@dimen/mCardElevation</item>
+        <item name="android:layout_marginRight">@dimen/mCardElevation</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <!--Sensor Managements label-->
+    <style name="sensor_managements_label_text">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Small</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/activity_all_margin</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--Real time dash board-->
+    <style name="real_time_dashboard_linear_layout">
+        <item name="android:weightSum">@dimen/real_time_layout_weight_sum</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_margin">@dimen/activity_all_margin</item>
+    </style>
+    <style name="real_time_dashboard_text_view">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
+        <item name="android:layout_weight">@dimen/real_time_text_weight</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/activity_all_margin</item>
+    </style>
+    <style name="real_time_dashboard_text_view_value">
+        <item name="android:layout_weight">@dimen/real_time_text_weight</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/activity_all_margin</item>
+    </style>
+    <style name="real_time_dashboard_progress" parent="android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
+        <item name="android:layout_weight">@dimen/real_time_progress_weight</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/activity_all_margin</item>
+    </style>
+
+    <!--Real Time Map-->
+    <style name="real_time_map_detail_linear_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="real_time_map_detail_label_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Small</item>
+    </style>
+    <style name="real_time_map_detail_card_view">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_margin">@dimen/activity_all_margin</item>
+    </style>
+    <style name="real_time_map_detail_progress_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="FlatOKButton" parent="Widget.AppCompat.Button.Borderless">
+
+        <item name="android:textColor">@color/colorOK</item>
+
+    </style>
+    <style name="FlatCancelButton" parent="Widget.AppCompat.Button.Borderless">
+
+        <item name="android:textColor">@color/colorCancel</item>
+
+    </style>
+    <style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:backgroundTint">#ffffff</item>
+    </style>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".RealTimeAirDataMonitoring.RealTimeDataFragment">
+
+    <fragment
+        android:id="@+id/fragmentMap"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:tools="http://schemas.android.com/tools"-->
+        <!--app:layout_behavior="@string/bottom_sheet_behavior"-->
+        <!--android:id="@+id/realTimeAirDataList"-->
+        <!--android:name="com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.RealTimeDataFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--tools:listitem="@layout/recycler_view_item_real_time_air_data">-->
+    <!--</android.support.v7.widget.RecyclerView>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:id="@+id/real_time_air_bottom_view"
+        android:background="@android:color/transparent"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+        <include layout="@layout/real_time_air_data_detail" />
+        <!--<include layout="@layout/recycler_view_real_time_air_data" />-->
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
