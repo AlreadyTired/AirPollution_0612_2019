@@ -93,7 +93,7 @@ public class PostMessageMaker {
                 String natCode = "Q30";
                 String staCode = "Q99";
                 String cityCode = "Q16552";
-                int heartRate = Integer.parseInt(mHeartDataList.get(i).heartRate);
+                long heartRate = Long.parseLong(mHeartDataList.get(i).heartRate);
                 double rrInterval = Double.valueOf(mHeartDataList.get(i).rrInterval);
                 heartTuple.put(timeStamp);
                 heartTuple.put(latlng);

@@ -260,10 +260,10 @@ public class MainActivity extends AppCompatActivity
                         {
                             Log.d("D/RHD_ACK_TEST","{\"header\":{\"msgType\":\"56\"" + " Check!@@@@@@@@@@@@@@@@@@@@@@");
                             TempHeartData.timeStamp = String.valueOf(Integer.valueOf(timeStamp)-1);
-                            TempHeartData.heartRate = "ffffffff" ;
-                            TempHeartData.rrInterval = "ffffffff";
-                            TempHeartData.latitude = "ffffffff";
-                            TempHeartData.longitude = "ffffffff";
+                            TempHeartData.heartRate = "4294967295" ;
+                            TempHeartData.rrInterval = "4294967295";
+                            TempHeartData.latitude = "4294967295";
+                            TempHeartData.longitude = "4294967295";
                             mHeartDataList.put(TempHeartData.timeStamp,TempHeartData);
                         }
                     }

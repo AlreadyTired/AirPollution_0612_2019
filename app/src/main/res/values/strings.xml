@@ -1,9 +1,9 @@
 <resources>
     <!--qualcomminst.com:(portNumber)/serverapi-->
-    <!--<string name="air_url">http://somnium.me:8080/serverapi</string>-->
-    <!--<string name="heart_url">http://somnium.me:8080/serverdatatran</string>-->
-    <string name="heart_url">http://somnium.me:5050/serverapi</string>
-    <string name="air_url">http://somnium.me:5050/serverapi</string>
+    <string name="air_url">http://somnium.me:8080/serverapi</string>
+    <string name="heart_url">http://somnium.me:8080/serverdatatran</string>
+    <!--<string name="heart_url">http://somnium.me:5050/serverapi</string>-->
+    <!--<string name="air_url">http://somnium.me:5050/serverapi</string>-->
 
     <string name="app_name">AirPollution</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -14,7 +14,7 @@ import static java.lang.System.currentTimeMillis;
 public class HeartDataGenerator {
     private Context context;
     private Timer generateTimer = null;
-    private int generateInterval = 1010;
+    private int generateInterval = 999;
 
     private int highestValue = 170;
     private int lowestValue = 53;
