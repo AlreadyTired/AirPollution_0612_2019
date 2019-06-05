@@ -9,13 +9,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.snackbar.ContentViewCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -50,7 +53,7 @@ import static com.pce_mason.qi.airpollution.MainActivity.StateCheck;
  * A signIn screen that offers signIn via email/password.
  */
 public class SignInActivity extends AppCompatActivity {
-
+    public static LinearLayout view;
     private HttpConnectionThread mAuthTask = null;
 
     // BackPress
@@ -79,6 +82,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         backPressCloseHandler = new BackPressCloseHandler(this);
 
+        view = (LinearLayout)findViewById(R.id.signInMainLayout);
 
         signInMainLayout = (LinearLayout) findViewById(R.id.signInMainLayout);
         signInMainLayout.setOnTouchListener(new View.OnTouchListener() {

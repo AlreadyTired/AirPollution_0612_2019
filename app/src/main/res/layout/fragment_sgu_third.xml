@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserManagements.FragmentSguThird">
+    tools:context=".UserManagements.FragmentSguThird"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/sgu_layout_padding">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter authentication code"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please, enter the authetication code."
+            android:textSize="15sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+            android:text="@string/uvc_email_set"
+            android:id="@+id/sgu_thirdpage_emailtext"/>
+    </LinearLayout>
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/verificationi_number"
+        android:id="@+id/verificationCodeView"/>
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="56dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+        android:id="@+id/SignUpAuthenticationCodeLayout">
+        <EditText
+            android:id="@+id/SignUpAuthenticationCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/authentication_code"
+            android:imeOptions="actionDone"
+            android:inputType="textEmailAddress"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:layout_marginLeft="@dimen/textinput_leftmargin"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/verificationTimer"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/textinput_leftmargin"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:paddingHorizontal="40dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue"
+            android:textColor="#111188"
+            android:id="@+id/sgu_Thirdpage_continue_btn"/>
+    </LinearLayout>
+
+</LinearLayout>

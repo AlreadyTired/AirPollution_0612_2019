@@ -3,107 +3,321 @@ package com.pce_mason.qi.airpollution.UserManagements;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.pce_mason.qi.airpollution.AppClientHeader.CustomTimer;
+import com.pce_mason.qi.airpollution.AppClientHeader.DefaultValue;
+import com.pce_mason.qi.airpollution.AppClientHeader.MessageType;
+import com.pce_mason.qi.airpollution.AppClientHeader.ResultCode;
+import com.pce_mason.qi.airpollution.AppClientHeader.StateNumber;
+import com.pce_mason.qi.airpollution.DataManagements.HttpConnectionThread;
+import com.pce_mason.qi.airpollution.DataManagements.PostMessageMaker;
 import com.pce_mason.qi.airpollution.R;
+import com.pce_mason.qi.airpollution.SignInActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentSguThird.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentSguThird#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentSguThird extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import java.lang.annotation.Inherited;
+import java.util.concurrent.ExecutionException;
 
-    private OnFragmentInteractionListener mListener;
+import static com.pce_mason.qi.airpollution.AppClientHeader.CustomTimer.R102;
+import static com.pce_mason.qi.airpollution.AppClientHeader.CustomTimer.T102;
+import static com.pce_mason.qi.airpollution.MainActivity.APP_STATE;
+import static com.pce_mason.qi.airpollution.MainActivity.StateCheck;
+
+public class FragmentSguThird extends Fragment implements SignUpActivity.onKeyBackPressedListener{
+
+    private int AUTHENTICATION_CODE_LENGTH = 20;
+    private View view;
+    // UI Connect
+    private CountDownTimer validationTimer;
+    private TextView VerificationCodeView, EmailView, verificationTimer;
+    private String Email, verificationCode;
+    private EditText AuthenticationCodeEdt;
+    private TextInputLayout AuthticationCodeLayout;
+    private Button ContinueBtn;
+
+    private HttpConnectionThread mAuthTask;
+    private int temporaryClientId;
+    private long remindTime;
 
     public FragmentSguThird() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentSguThird.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentSguThird newInstance(String param1, String param2) {
-        FragmentSguThird fragment = new FragmentSguThird();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            Email = getArguments().getString("Email");
+            verificationCode = getArguments().getString("VerificationCode");
+            temporaryClientId = Integer.valueOf(getArguments().getString("TemporaryClientID"));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sgu_third, container, false);
+        view = inflater.inflate(R.layout.fragment_sgu_third, container, false);
+
+        AuthenticationCodeEdt = (EditText)view.findViewById(R.id.SignUpAuthenticationCode);
+        AuthticationCodeLayout = (TextInputLayout)view.findViewById(R.id.SignUpAuthenticationCodeLayout);
+        ContinueBtn = (Button)view.findViewById(R.id.sgu_Thirdpage_continue_btn);
+        VerificationCodeView = (TextView)view.findViewById(R.id.verificationCodeView);
+        EmailView = (TextView)view.findViewById(R.id.sgu_thirdpage_emailtext);
+        VerificationCodeView.setText(getString(R.string.verificationi_number) + " " + verificationCode);
+        EmailView.setText(getString(R.string.uvc_email_set) + " " + Email);
+        verificationTimer = (TextView) view.findViewById(R.id.verificationTimer);
+
+        ContinueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // UVC Request
+                attemptVerificationCode();
+            }
+        });
+
+        // Timer
+        validationTimer = new CountDownTimer(CustomTimer.T251, 1000) {
+            @Override
+            public void onTick(long l) {
+                remindTime = l;
+                updateTimer();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+        ((SignUpActivity)getActivity()).SGUStatusBarChange(3);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public static FragmentSguThird getInstance(String Email, String VerificationCode, String TCI)
+    {
+        FragmentSguThird mFragment = new FragmentSguThird();
+        Bundle args = new Bundle();
+        args.putString("Email",Email);
+        args.putString("VerificationCode",VerificationCode);
+        args.putString("TemporaryClientID",TCI);
+        mFragment.setArguments(args);
+        return mFragment;
+    }
+
+    private boolean isAuthenticationCodeValid(String authenticationCode) {
+        return authenticationCode.length() == AUTHENTICATION_CODE_LENGTH;
+    }
+
+    private void attemptVerificationCode() {
+        if (mAuthTask != null) {
+            return;
         }
-    }
+        // Reset errors.
+        AuthticationCodeLayout.setError(null);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        // Store values at the time of the login attempt.
+        String authentication = AuthenticationCodeEdt.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        hideKeyboard();
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(authentication)) {
+            AuthticationCodeLayout.setError(getString(R.string.Authentication_code_blank_error));
+            focusView = AuthenticationCodeEdt;
+            cancel = true;
+        } else if (!isAuthenticationCodeValid(authentication)) {
+            AuthticationCodeLayout.setError(getString(R.string.error_authentication_code_length));
+            focusView = AuthenticationCodeEdt;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            Log.d("SGU_UVC_REQ_TEST","UVC Input Verified");
+            requestMessageProcess();
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private void requestMessageProcess(){
+        if(APP_STATE == StateNumber.STATE_SAP.USER_DUPLICATE_REQUESTED_STATE) {
+            String authentication = AuthenticationCodeEdt.getText().toString();
+
+            hideKeyboard();
+            PostMessageMaker postMessageMaker = new PostMessageMaker(MessageType.SAP_UVCREQ_TYPE, 33, temporaryClientId);
+            postMessageMaker.inputPayload(verificationCode, authentication);
+            String reqMsg = postMessageMaker.makeRequestMessage();
+            Log.d("SGU_UVC_REQ_TEST","UVC_REQ Message Packing");
+            Log.d("SGU_UVC_REQ_TEST",reqMsg);
+            try {
+                String airUrl = getString(R.string.air_url);
+                for(int i=0;i<R102;i++)
+                {
+                    APP_STATE = StateNumber.STATE_SAP.HALF_USN_ALLOCATE_STATE;
+                    Log.d("UVC_REQ_TEST","State : Haf USN allocated state");
+                    mAuthTask = new HttpConnectionThread(getContext(),T102);
+                    Log.d("SGU_UVC_REQ_TEST","UVC Message Send");
+                    boolean RetryFlag = messageResultProcess(mAuthTask.execute(airUrl, reqMsg).get());
+                    if(RetryFlag) { break; }
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Toast.makeText(getContext(), getString(R.string.error_result_other), Toast.LENGTH_SHORT).show();
+        }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    private void hideKeyboard() {
+        View view = getActivity().findViewById(android.R.id.content);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+    //Response message parsing and processing
+    private boolean messageResultProcess(String responseMsg){
+        boolean RetrivalChecking = false;
+        try {
+            if(responseMsg.equals(DefaultValue.CONNECTION_FAIL) || responseMsg.equals("{}")){
+                APP_STATE = StateNumber.STATE_SAP.USER_DUPLICATE_REQUESTED_STATE;
+                StateCheck("UVC_RSP");
+                Toast.makeText(getContext(), getString(R.string.error_server_not_working), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Log.d("SGU_UVC_RSP_TEST","UVC Rsp Received");
+                JSONObject jsonResponse = new JSONObject(responseMsg);
+                JSONObject jsonHeader = new JSONObject(jsonResponse.getString("header"));
+                JSONObject jsonPayload = new JSONObject(jsonResponse.getString("payload"));
+
+                int msgType = jsonHeader.getInt("msgType");
+                int msgLen = jsonHeader.getInt("msgLen");
+                int endpointId = jsonHeader.getInt("endpointId");
+
+                if (msgType == MessageType.SAP_UVCRSP_TYPE && endpointId == temporaryClientId) {
+                    Log.d("UVC_RSP_TEST",responseMsg);
+                    Log.d("SGU_UVC_RSP_TEST","UVC Rsp Unpacking");
+                    int resultCode = jsonPayload.getInt("resultCode");
+                    RetrivalChecking = true;
+                    switch (resultCode){
+                        case ResultCode.RESCODE_SAP_UVC_OK:
+                            APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;
+                            StateCheck("UVC_RSP");
+                            Snackbar.make(SignInActivity.view,"You have successfully signed up",3000).show();
+                            validationTimer.cancel();
+                            getActivity().finish();
+                            break;
+                        case ResultCode.RESCODE_SAP_UVC_OTHER:
+                            APP_STATE = StateNumber.STATE_SAP.USER_DUPLICATE_REQUESTED_STATE;
+                            StateCheck("UVC_RSP");
+                            Toast.makeText(getContext(), getString(R.string.error_result_other), Toast.LENGTH_SHORT).show();
+                            break;
+                        case ResultCode.RESCODE_SAP_UVC_DUPLICATE_OF_USER_ID:
+                            APP_STATE = StateNumber.STATE_SAP.USER_DUPLICATE_REQUESTED_STATE;
+                            StateCheck("UVC_RSP");
+                            Toast.makeText(getContext(), getString(R.string.email_duplicate), Toast.LENGTH_SHORT).show();
+                            onDestroy();
+                            break;
+                        case ResultCode.RESCODE_SAP_UVC_NOT_EXIT_A_TEMPORARY_CLIENT_IDDUPLICATE_OF_USER_ID:
+                            APP_STATE = StateNumber.STATE_SAP.USER_DUPLICATE_REQUESTED_STATE;
+                            StateCheck("UVC_RSP");
+                            Toast.makeText(getContext(), getString(R.string.not_exist_TCI), Toast.LENGTH_SHORT).show();
+                            onDestroy();
+                            break;
+                        case ResultCode.RESCODE_SAP_UVC_INCORRECT_AUTHENTICATION_CODE:
+                            APP_STATE = StateNumber.STATE_SAP.USER_DUPLICATE_REQUESTED_STATE;
+                            StateCheck("UVC_RSP");
+                            AuthticationCodeLayout.setError(getString(R.string.error_incorrect_authentication));
+                            AuthenticationCodeEdt.requestFocus();
+                            break;
+                    }
+                } else {
+                    Log.d("UVC_RSP_TEST",responseMsg);
+                    Toast.makeText(getContext(), getString(R.string.error_result_other), Toast.LENGTH_SHORT).show();
+                    APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;
+                    StateCheck("UVC_RSP");
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                mPasswordView.requestFocus();
+                }
+            }
+            mAuthTask = null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        mAuthTask = null;
+        return RetrivalChecking;
+    }
+
+    @Override
+    public void onBackKey()
+    {
+        SignUpActivity SguActivity = (SignUpActivity)getActivity();
+        SguActivity.setOnKeyBackPressedListener(null);
+        SguActivity.onBackPressed();
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        Log.d(this.getClass().getSimpleName(), "onAttach()");
+        super.onAttach(context);
+        ((SignUpActivity)context).setOnKeyBackPressedListener(this);
+    }
+
+    public void updateTimer(){
+        int minutes = (int) remindTime / 60000;
+        int seconds = (int) (remindTime % 60000) / 1000;
+        String timeLeftText;
+
+        timeLeftText = "" +minutes;
+        timeLeftText += ":";
+        if (seconds < 10)
+        {
+            timeLeftText += "0";
+            validationTimer.cancel();
+            Toast.makeText(getContext(), getString(R.string.verification_code_timeout), Toast.LENGTH_SHORT).show();
+            onBackKey();
+            APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;
+        }
+        timeLeftText += seconds;
+
+        verificationTimer.setText(timeLeftText);
+    }
+
+    @Override
+    public void onDetach()
+    {
+        try
+        {
+            validationTimer.cancel();
+        }catch (Exception e){
+            validationTimer = null;
+        }
+        super.onDetach();
     }
 }

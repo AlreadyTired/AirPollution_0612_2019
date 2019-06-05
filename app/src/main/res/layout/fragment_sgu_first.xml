@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".UserManagements.FragmentSguFirst"
-    android:padding="@dimen/sgu_layout_padding">
+    android:paddingHorizontal="@dimen/sgu_layout_padding">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,10 +29,10 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/sgu_textinput_vertical_padding"
+        android:layout_height="56dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin">
+        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+        android:id="@+id/SignUpFirstNameLayout">
 
         <EditText
             android:id="@+id/signUpFirstName"
@@ -49,10 +49,10 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/sgu_textinput_vertical_padding"
+        android:layout_height="56dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin">
+        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+        android:id="@+id/SignUpLastNameLayout">
 
         <EditText
             android:id="@+id/signUpLastName"
@@ -69,10 +69,10 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/sgu_textinput_vertical_padding"
+        android:layout_height="56dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin">
+        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+        android:id="@+id/SignUpBirthLayout">
 
         <EditText
             android:id="@+id/signUpBirth"
@@ -85,40 +85,45 @@
             android:maxLines="1"
             android:singleLine="true"
             android:layout_marginLeft="@dimen/textinput_leftmargin"
-            android:paddingRight="15dp"
-            android:drawableRight="@drawable/ic_today_black_24dp"/>
+            android:drawableEnd="@drawable/ic_today_black_24dp"/>
 
     </android.support.design.widget.TextInputLayout>
-
-    <RadioGroup
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:paddingHorizontal="10dp">
-        <RadioButton
-            android:layout_width="wrap_content"
+        android:id="@+id/radioGroupLayout">
+        <RadioGroup
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="Male"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Female"/>
-    </RadioGroup>
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/SignUpRadioGroup"
+            android:paddingHorizontal="10dp">
+
+            <RadioButton
+                android:id="@+id/SignUpGenderMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Male" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Female"
+                android:id="@+id/SignUpGenderFemale"/>
+        </RadioGroup>
+    </android.support.design.widget.TextInputLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
         android:paddingHorizontal="40dp">
-        <android.support.design.button.MaterialButton
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cornerRadius="5dp"
             android:text="Continue"
             android:textColor="#111188"
-            android:id="@+id/sgu_firstpage_btn"/>
+            android:id="@+id/sgu_firstpage_continue_btn"/>
     </LinearLayout>
 </LinearLayout>

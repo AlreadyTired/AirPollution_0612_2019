@@ -6,16 +6,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".UserManagements.FragmentSguSecond"
-    android:padding="@dimen/sgu_layout_padding">
+    android:paddingHorizontal="@dimen/sgu_layout_padding">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi, Example"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:id="@+id/sgu_secondpage_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter your email address to verify your account."
+            android:textSize="15sp"
+            android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"/>
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin">
+        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+        android:id="@+id/SignUpEmailLayout">
 
         <AutoCompleteTextView
-            android:id="@+id/signUpEmail"
+            android:id="@+id/SignUpEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/sign_up_email"
@@ -23,19 +44,20 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true"
-            android:layout_marginLeft="@dimen/textinput_leftmargin"/>
+            android:layout_marginStart="@dimen/textinput_leftmargin"/>
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         app:passwordToggleEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin">
+        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+        android:id="@+id/SignUpPasswordLayout">
 
         <EditText
-            android:id="@+id/signUpPassword"
+            android:id="@+id/SignUpPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/sign_up_password"
@@ -43,28 +65,40 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:singleLine="true"
-            android:layout_marginLeft="@dimen/textinput_leftmargin"/>
+            android:layout_marginStart="@dimen/textinput_leftmargin"/>
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         app:passwordToggleEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin">
+        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+        android:id="@+id/SignUpConfirmPasswordLayout">
 
         <EditText
-            android:id="@+id/signUpRepeatPassword"
+            android:id="@+id/SignUpConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sign_up_repeat_password"
-            android:imeOptions="actionNext"
+            android:hint="@string/sign_up_confirm_password"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:maxLines="1"
             android:singleLine="true"
-            android:layout_marginLeft="@dimen/textinput_leftmargin" />
+            android:layout_marginStart="@dimen/textinput_leftmargin" />
 
     </android.support.design.widget.TextInputLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:paddingHorizontal="40dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue"
+            android:textColor="#111188"
+            android:id="@+id/sgu_secondpage_continue_btn"/>
+    </LinearLayout>
 </LinearLayout>

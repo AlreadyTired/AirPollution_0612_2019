@@ -1,9 +1,9 @@
 <resources>
     <!--qualcomminst.com:(portNumber)/serverapi-->
-    <string name="air_url">http://somnium.me:8080/serverapi</string>
-    <string name="heart_url">http://somnium.me:8080/serverdatatran</string>
-    <!--<string name="heart_url">http://somnium.me:5050/serverapi</string>-->
-    <!--<string name="air_url">http://somnium.me:5050/serverapi</string>-->
+    <!--<string name="air_url">http://somnium.me:8080/serverapi</string>-->
+    <!--<string name="heart_url">http://somnium.me:8080/serverdatatran</string>-->
+    <string name="heart_url">http://somnium.me:5050/serverapi</string>
+    <string name="air_url">http://somnium.me:5050/serverapi</string>
 
     <string name="app_name">AirPollution</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -13,7 +13,7 @@
     <string name="action_settings">Settings</string>
 
     <!--Strings related to Error-->
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_email">E-mail is invalid.</string>
     <string name="error_invalid_password">This password is invalid</string>
     <string name="error_invalid_new_password">The new password must be different to current password</string>
     <string name="error_invalid_repeat_password">This repeat password is different to new password</string>
@@ -50,7 +50,7 @@
     <string name="sign_up_first_name">First Name</string>
     <string name="sign_up_last_name">Last Name</string>
     <string name="sign_up_password">Password</string>
-    <string name="sign_up_repeat_password">Repeat Password</string>
+    <string name="sign_up_confirm_password">Confirm Password</string>
     <string name="sign_up_birth_date">Birth Date</string>
     <string name="sign_up_button">Sign Up</string>
     <string-array name="gender_array">
@@ -174,6 +174,11 @@
     <string name="not_exist_mac_address">Not exist WiFi MAC address</string>
     <string name="unallocated_CID">Unallocated Connection ID / Sensor disconnected</string>
     <string name="sign_in_warning">Sign In first</string>
+    <string name="verificationi_number">Verificationi Number : </string>
+    <string name="uvc_email_set">We sent to your eamil </string>
+    <string name="Authentication_code_blank_error">Authentication code can’t be blank.</string>
+    <string name="sgu_name_valid_error">Name can\'t be blank.</string>
+    <string name="birth_valid_error">Select the date of birth</string>
 
 
 </resources>

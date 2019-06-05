@@ -9,52 +9,54 @@
     tools:context=".UserManagements.SignUpActivity">
 
     <!-- previous version -->
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-    <include layout="@layout/content_sign_up" />
-    <!-- previous version -->
-
-    <!--<LinearLayout-->
+    <!--<android.support.design.widget.AppBarLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:padding="10dp">-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="2dp"-->
-            <!--android:id="@+id/sgu_divider_first"-->
-            <!--android:src="@drawable/fragment_page_divider_selected" />-->
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="?attr/colorPrimary"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
 
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginHorizontal="3dp"-->
-            <!--android:id="@+id/sgu_divider_second"-->
-            <!--android:src="@drawable/fragment_page_divider" />-->
+    <!--</android.support.design.widget.AppBarLayout>-->
+    <!--<include layout="@layout/content_sign_up" />-->
+    <!-- previous version -->
 
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/sgu_divider_third"-->
-            <!--android:src="@drawable/fragment_page_divider" />-->
-    <!--</LinearLayout>-->
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/sgu_viewpager">-->
+    <!--New version-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <!--</android.support.v4.view.ViewPager>-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/sgu_divider_first"
+            android:src="@drawable/fragment_page_divider_selected" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="3dp"
+            android:id="@+id/sgu_divider_second"
+            android:src="@drawable/fragment_page_divider" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/sgu_divider_third"
+            android:src="@drawable/fragment_page_divider" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sgu_frame_layout">
+
+    </FrameLayout>
+    <!--New version-->
 </LinearLayout>
