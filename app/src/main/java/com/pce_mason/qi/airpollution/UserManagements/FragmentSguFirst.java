@@ -179,13 +179,13 @@ public class FragmentSguFirst extends Fragment implements SignUpActivity.onKeyBa
         if(!MaleBtn.isChecked() && !FemaleBtn.isChecked())
         {
             RadioGroupLayout.setError("Select one of those");
+            focusView = RadioGroupLayout;
             cancel = true;
         }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            focusView = RadioGroupLayout;
             focusView.requestFocus();
         } else {
             ((SignUpActivity)getActivity()).replaceFragment(2,FragmentSguSecond.getInstance(FirstName,LastName,BirthDate,Gender));

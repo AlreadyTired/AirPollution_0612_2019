@@ -118,12 +118,6 @@ public class SignInActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MainActivity.USER_ID = "Airound@gmail.com";
-//                MainActivity.USER_SEQUENCE_NUMBER = 124123;
-//                MainActivity.NUMBER_OF_SIGNED_IN_COMPLETIONS = 33;
-//                Intent mainIt = new Intent(SignInActivity.this, MainActivity.class);
-//                startActivity(mainIt);
-//                finish();
                 attemptSignIn();
             }
         });
