@@ -30,9 +30,11 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="555555" />
-                            <entry key="outputName" value="ic_icon_home" />
+                            <entry key="height" value="32" />
+                            <entry key="outputName" value="ic_icon_airoundu" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\KimHyunWoo\Desktop\QI Intership\Study\Android Design\ICON\icon_home.svg" />
+                            <entry key="sourceFile" value="C:\Users\KimHyunWoo\Desktop\QI Intership\Study\Android Design\ICON\icon_airoundU.svg" />
+                            <entry key="width" value="112" />
                           </map>
                         </option>
                       </PersistentState>
