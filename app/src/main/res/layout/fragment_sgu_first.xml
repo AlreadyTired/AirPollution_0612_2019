@@ -8,121 +8,135 @@
     android:paddingHorizontal="@dimen/sgu_layout_padding">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Join Us"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create an account to get a lot of air quality data and health data."
-            android:textSize="15sp"
-            android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"/>
-    </LinearLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
-        android:id="@+id/SignUpFirstNameLayout">
-
-        <EditText
-            android:id="@+id/signUpFirstName"
+        android:weightSum="31">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/sign_up_first_name"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:layout_marginLeft="@dimen/textinput_leftmargin"
-            android:singleLine="true" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
-        android:id="@+id/SignUpLastNameLayout">
-
-        <EditText
-            android:id="@+id/signUpLastName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/sign_up_last_name"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:layout_marginLeft="@dimen/textinput_leftmargin"
-            android:singleLine="true" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
-        android:id="@+id/SignUpBirthLayout">
-
-        <EditText
-            android:id="@+id/signUpBirth"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/sign_up_birth_date"
-            android:imeOptions="actionDone"
-            android:inputType="date"
-            android:maxLength="10"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:layout_marginLeft="@dimen/textinput_leftmargin"
-            android:drawableEnd="@drawable/ic_today_black_24dp"/>
-
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioGroupLayout">
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:id="@+id/SignUpRadioGroup"
-            android:paddingHorizontal="10dp">
-
-            <RadioButton
-                android:id="@+id/SignUpGenderMale"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="27">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Male" />
-            <RadioButton
-                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Join Us"
+                    android:textSize="25sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create an account to get a lot of air quality data and health data."
+                    android:textSize="15sp"
+                    android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"/>
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/Edit_Text_Height"
+                style="@style/TextInputLayoutSignUpCustom"
+                android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+                android:id="@+id/SignUpFirstNameLayout">
+
+                <EditText
+                    android:id="@+id/signUpFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/sign_up_first_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:layout_marginLeft="@dimen/textinput_leftmargin"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/Edit_Text_Height"
+                style="@style/TextInputLayoutSignUpCustom"
+                android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+                android:id="@+id/SignUpLastNameLayout">
+
+                <EditText
+                    android:id="@+id/signUpLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/sign_up_last_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:layout_marginLeft="@dimen/textinput_leftmargin"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/Edit_Text_Height"
+                style="@style/TextInputLayoutSignUpCustom"
+                android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+                android:id="@+id/SignUpBirthLayout">
+
+                <EditText
+                    android:id="@+id/signUpBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/sign_up_birth_date"
+                    android:imeOptions="actionDone"
+                    android:inputType="date"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_marginLeft="@dimen/textinput_leftmargin"
+                    android:drawableEnd="@drawable/ic_today_black_24dp"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Female"
-                android:id="@+id/SignUpGenderFemale"/>
-        </RadioGroup>
-    </android.support.design.widget.TextInputLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:paddingHorizontal="40dp">
-        <Button
+                android:id="@+id/radioGroupLayout">
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/SignUpRadioGroup"
+                    android:paddingHorizontal="10dp">
+
+                    <RadioButton
+                        android:id="@+id/SignUpGenderMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Male" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Female"
+                        android:id="@+id/SignUpGenderFemale"/>
+                </RadioGroup>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Continue"
-            android:textColor="#111188"
-            android:id="@+id/sgu_firstpage_continue_btn"/>
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="4">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Continue"
+                android:textColor="@color/btn_text_basic_color"
+                android:id="@+id/sgu_firstpage_continue_btn"
+                android:background="@drawable/custombutton"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

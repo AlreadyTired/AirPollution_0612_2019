@@ -66,10 +66,10 @@
                     app:passwordToggleEnabled="true">
 
                     <EditText
-                        android:id="@+id/SignUpConfirmPassword"
+                        android:id="@+id/signUpRepeatPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/sign_up_confirm_password"
+                        android:hint="@string/sign_up_repeat_password"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLines="1"

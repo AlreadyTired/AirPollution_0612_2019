@@ -36,5 +36,7 @@
     <!--Custom Dialog Color-->
     <color name="colorOK">#4CAF50</color>
     <color name="colorCancel">#D81B60</color>
+    <color name="btn_text_basic_color">#ffffff</color>
+    <color name="text_basic_color">#4c6283</color>
 
 </resources>

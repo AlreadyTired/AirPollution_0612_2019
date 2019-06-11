@@ -18,7 +18,7 @@
             android:title="@string/menu_air_quality_map" />
         <item
             android:id="@+id/nav_heart"
-            android:icon="@drawable/ic_menu_heart"
+            android:icon="@drawable/ic_icon_health"
             android:title="@string/menu_heart_rate" />
         <item
             android:id="@+id/nav_sensorManagements"
@@ -30,11 +30,11 @@
         android:id="@+id/user_manage_divider">
         <item
             android:id="@+id/nav_passwordChange"
-            android:icon="@drawable/ic_menu_key"
+            android:icon="@drawable/ic_icon_changepassword"
             android:title="@string/menu_password_change" />
         <item
             android:id="@+id/nav_signOut"
-            android:icon="@drawable/ic_menu_clear"
+            android:icon="@drawable/ic_icon_singout"
             android:title="@string/menu_sign_out" />
     </group>
 

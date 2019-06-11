@@ -28,5 +28,7 @@
     <dimen name="textinput_leftmargin">5dp</dimen>
     <dimen name="sgu_layout_bottom_margin">10dp</dimen>
     <dimen name="sgu_textinput_vertical_padding">5dp</dimen>
+    <dimen name="Edit_Text_Height">56dp</dimen>
+    <dimen name="Sgi_TextInput_margin">20dp</dimen>
 
 </resources>

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.snackbar.ContentViewCallback;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,6 +41,7 @@ import com.pce_mason.qi.airpollution.UserManagements.SignUpActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
@@ -65,10 +67,9 @@ public class SignInActivity extends AppCompatActivity {
     private String userId = "userEmail";
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    private TextInputLayout mEmailLayout, mPasswordLayout;
+    private EditText mPasswordView,mEmailView;
     private View mProgressView;
-    private View mSignInFormView;
     private LinearLayout signInMainLayout, signInLayout;
     private int temporaryClientId;
 
@@ -101,9 +102,11 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
         // Set up the signIn form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.SignInEmail);
+        mEmailLayout = (TextInputLayout)findViewById(R.id.SignInEmailLayout);
+        mPasswordLayout = (TextInputLayout)findViewById(R.id.SignInPasswordLayout);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (EditText) findViewById(R.id.SignInPassword);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -114,7 +117,7 @@ public class SignInActivity extends AppCompatActivity {
                 return false;
             }
         });
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.SignInAttemptBtn);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +125,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        Button RealtimeDataView = (Button) findViewById(R.id.real_time_data_view);
+        TextView RealtimeDataView = (TextView) findViewById(R.id.real_time_data_view);
         RealtimeDataView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +156,6 @@ public class SignInActivity extends AppCompatActivity {
         //sharedPreferences data get and set
         setUserId();
 
-        mSignInFormView = findViewById(R.id.signIn_form);
         mProgressView = findViewById(R.id.signIn_progress);
 
     }
@@ -196,8 +198,8 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        mEmailLayout.setError(null);
+        mPasswordLayout.setError(null);
 
         // Store values at the time of the signIn attempt.
         String email = mEmailView.getText().toString();
@@ -207,22 +209,22 @@ public class SignInActivity extends AppCompatActivity {
         View focusView = null;
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
+            mPasswordLayout.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         } else if (!isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+            mPasswordLayout.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            mEmailLayout.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailLayout.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
@@ -322,13 +324,13 @@ public class SignInActivity extends AppCompatActivity {
                         case ResultCode.RESCODE_SAP_SGI_NOT_EXIST_USER_ID:
                             APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;
                             StateCheck("SGI_RSP");
-                            mEmailView.setError(getString(R.string.error_invalid_email));
+                            mEmailLayout.setError(getString(R.string.error_invalid_email));
                             mEmailView.requestFocus();
                             break;
                         case ResultCode.RESCODE_SAP_SGI_INCORRECT_CURRENT_USER_PASSWORD:
                             APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;
                             StateCheck("SGI_RSP");
-                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordLayout.setError(getString(R.string.error_incorrect_password));
                             mPasswordView.requestFocus();
                             break;
                     }
@@ -373,12 +375,12 @@ public class SignInActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mSignInFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mSignInFormView.animate().setDuration(shortAnimTime).alpha(
+            signInMainLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+            signInMainLayout.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mSignInFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    signInMainLayout.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -394,7 +396,7 @@ public class SignInActivity extends AppCompatActivity {
             // The ViewPropertyAnimator APIs are not available, so simply show`
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mSignInFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            signInMainLayout.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -402,6 +404,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;
+
     }
 
     public class BackPressCloseHandler {
@@ -432,4 +435,3 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 }
-

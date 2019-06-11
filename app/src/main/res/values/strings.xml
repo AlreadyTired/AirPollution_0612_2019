@@ -8,12 +8,12 @@
     <string name="app_name">AirPollution</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Welcome</string>
+    <string name="nav_header_title">Hi! there</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <!--Strings related to Error-->
-    <string name="error_invalid_email">E-mail is invalid.</string>
+    <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is invalid</string>
     <string name="error_invalid_new_password">The new password must be different to current password</string>
     <string name="error_invalid_repeat_password">This repeat password is different to new password</string>
@@ -46,11 +46,11 @@
     <string name="sign_up"><u>Sign Up</u></string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="sign_up_string">Don\'t have an account?</string>
-    <string name="sign_up_email">Email Address</string>
+    <string name="sign_up_email">Email</string>
     <string name="sign_up_first_name">First Name</string>
     <string name="sign_up_last_name">Last Name</string>
     <string name="sign_up_password">Password</string>
-    <string name="sign_up_confirm_password">Confirm Password</string>
+    <string name="sign_up_repeat_password">Repeat Password</string>
     <string name="sign_up_birth_date">Birth Date</string>
     <string name="sign_up_button">Sign Up</string>
     <string-array name="gender_array">
@@ -174,9 +174,10 @@
     <string name="not_exist_mac_address">Not exist WiFi MAC address</string>
     <string name="unallocated_CID">Unallocated Connection ID / Sensor disconnected</string>
     <string name="sign_in_warning">Sign In first</string>
-    <string name="verificationi_number">Verificationi Number : </string>
-    <string name="uvc_email_set">We sent to your eamil </string>
-    <string name="Authentication_code_blank_error">Authentication code can’t be blank.</string>
+    <string name="sign_up_confirm_password">Confirm password</string>
+    <string name="uvc_email_set">We sent to your email</string>
+    <string name="verificationi_number">Verification Number :</string>
+    <string name="Authentication_code_blank_error">Please, enter the Authentication Code</string>
     <string name="sgu_name_valid_error">Name can\'t be blank.</string>
     <string name="birth_valid_error">Select the date of birth</string>
 
