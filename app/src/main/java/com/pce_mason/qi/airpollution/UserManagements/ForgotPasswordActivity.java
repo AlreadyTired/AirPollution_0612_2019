@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,8 +45,8 @@ import static com.pce_mason.qi.airpollution.MainActivity.StateCheck;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    private AutoCompleteTextView emailForgot;
-    private EditText firstNameForgot, lastNameForgot, birthDateForgot;
+    private TextInputLayout FirstNameLayout, LastNameLayout, BirthdateLayout, EmailLayout;
+    private EditText firstNameForgot, lastNameForgot, birthDateForgot, emailForgot;
     private LinearLayout forgotMainLayout;
     private int temporaryClientId;
 
@@ -54,8 +55,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         forgotMainLayout = (LinearLayout) findViewById(R.id.forgotMainLayout);
         forgotMainLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -65,7 +64,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
         //Input User Information
-        emailForgot = (AutoCompleteTextView) findViewById(R.id.forgotEmail);
+        EmailLayout = (TextInputLayout)findViewById(R.id.ForgotPasswordEmailLayout);
+        FirstNameLayout = (TextInputLayout)findViewById(R.id.ForgotPasswordFirstnameLayout);
+        LastNameLayout = (TextInputLayout)findViewById(R.id.ForgotPasswordLastnameLayout);
+        BirthdateLayout = (TextInputLayout)findViewById(R.id.ForgotPasswordBirthLayout);
+        emailForgot = (EditText) findViewById(R.id.forgotEmail);
         firstNameForgot = (EditText) findViewById(R.id.forgotFirstName);
         lastNameForgot = (EditText) findViewById(R.id.forgotLastName);
         birthDateForgot = (EditText) findViewById(R.id.forgotBirth);
@@ -125,10 +128,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
 
         // Reset errors.
-        emailForgot.setError(null);
-        firstNameForgot.setError(null);
-        lastNameForgot.setError(null);
-        birthDateForgot.setError(null);
+        EmailLayout.setError(null);
+        FirstNameLayout.setError(null);
+        LastNameLayout.setError(null);
+        BirthdateLayout.setError(null);
 
         // Store values at the time of the login attempt.
         String email = emailForgot.getText().toString();
@@ -141,29 +144,29 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         hideKeyboard(ForgotPasswordActivity.this);
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            emailForgot.setError(getString(R.string.error_field_required));
+            EmailLayout.setError(getString(R.string.error_field_required));
             focusView = emailForgot;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            emailForgot.setError(getString(R.string.error_invalid_email));
+            EmailLayout.setError(getString(R.string.error_invalid_email));
             focusView = emailForgot;
             cancel = true;
         }
         // Check for a valid first name
         if (TextUtils.isEmpty(firstName)) {
-            firstNameForgot.setError(getString(R.string.error_field_required));
+            FirstNameLayout.setError(getString(R.string.error_field_required));
             focusView = firstNameForgot;
             cancel = true;
         }
         // Check for a valid last name
         if (TextUtils.isEmpty(lastName)) {
-            lastNameForgot.setError(getString(R.string.error_field_required));
+            LastNameLayout.setError(getString(R.string.error_field_required));
             focusView = lastNameForgot;
             cancel = true;
         }
         // Check for a valid birthDate
         if (TextUtils.isEmpty(birthDate)) {
-            birthDateForgot.setError(getString(R.string.error_field_required));
+            BirthdateLayout.setError(getString(R.string.error_field_required));
             focusView = birthDateForgot;
             cancel = true;
         }
@@ -250,13 +253,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             requestMessageProcess();
                             break;
                         case ResultCode.RESCODE_SAP_FPU_INCORRECT_USER_INFORMATION:
-                            firstNameForgot.setError(getString(R.string.error_incorrect_user_info));
+                            FirstNameLayout.setError(getString(R.string.error_incorrect_user_info));
                             firstNameForgot.requestFocus();
-                            lastNameForgot.setError(getString(R.string.error_incorrect_user_info));
-                            birthDateForgot.setError(getString(R.string.error_incorrect_user_info));
+                            LastNameLayout.setError(getString(R.string.error_incorrect_user_info));
+                            BirthdateLayout.setError(getString(R.string.error_incorrect_user_info));
                             break;
                         case ResultCode.RESCODE_SAP_FPU_NOT_EXIST_USER_ID:
-                            emailForgot.setError(getString(R.string.not_exist_email));
+                            EmailLayout.setError(getString(R.string.not_exist_email));
                             emailForgot.requestFocus();
                             break;
                     }

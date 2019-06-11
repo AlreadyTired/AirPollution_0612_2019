@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_home"
+            android:icon="@drawable/ic_icon_home"
             android:title="@string/menu_home" />
     </group>
     <group
@@ -14,7 +14,7 @@
         android:id="@+id/function_divider">
         <item
             android:id="@+id/nav_real_time_map"
-            android:icon="@drawable/ic_menu_real_time_data"
+            android:icon="@drawable/ic_icon_airquality"
             android:title="@string/menu_air_quality_map" />
         <item
             android:id="@+id/nav_heart"
@@ -22,7 +22,7 @@
             android:title="@string/menu_heart_rate" />
         <item
             android:id="@+id/nav_sensorManagements"
-            android:icon="@drawable/ic_menu_sensor_managements"
+            android:icon="@drawable/ic_icon_sensormanagement"
             android:title="@string/menu_sensor_managements" />
     </group>
     <group

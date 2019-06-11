@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".UserManagements.FragmentSguFirst"
-    android:paddingHorizontal="@dimen/sgu_layout_padding">
+    android:paddingLeft="@dimen/sgu_layout_padding"
+    android:paddingRight="@dimen/sgu_layout_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/Edit_Text_Height"
-                style="@style/TextInputLayoutSignUpCustom"
+                style="@style/TextInputLayoutCustom"
                 android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
                 android:id="@+id/SignUpFirstNameLayout">
 
@@ -59,7 +60,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/Edit_Text_Height"
-                style="@style/TextInputLayoutSignUpCustom"
+                style="@style/TextInputLayoutCustom"
                 android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
                 android:id="@+id/SignUpLastNameLayout">
 
@@ -79,7 +80,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/Edit_Text_Height"
-                style="@style/TextInputLayoutSignUpCustom"
+                style="@style/TextInputLayoutCustom"
                 android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
                 android:id="@+id/SignUpBirthLayout">
 

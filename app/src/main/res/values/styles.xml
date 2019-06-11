@@ -112,12 +112,12 @@
         <item name="android:backgroundTint">#ffffff</item>
     </style>
 
-    <style name="TextInputLayoutSignUpCustom" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="TextInputLayoutCustom" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:colorControlActivated">#73a4fc</item>
         <item name="android:colorAccent">#b00020</item>
     </style>
 
-    <style name="TextInputLayoutSignInCustom" parent="@style/TextInputLayoutSignUpCustom">
+    <style name="TextInputLayoutSignInCustom" parent="@style/TextInputLayoutCustom">
         <item name="boxBackgroundColor">#ffffff</item>
     </style>
 </resources>

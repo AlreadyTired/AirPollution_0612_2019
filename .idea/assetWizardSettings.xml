@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_today_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_down_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,10 +29,10 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="444444" />
-                            <entry key="outputName" value="ic_icon_singout" />
+                            <entry key="color" value="555555" />
+                            <entry key="outputName" value="ic_icon_home" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\KimHyunWoo\Desktop\QI Intership\Study\Android Design\ICON\icon_navigation\icon_singout.svg" />
+                            <entry key="sourceFile" value="C:\Users\KimHyunWoo\Desktop\QI Intership\Study\Android Design\ICON\icon_home.svg" />
                           </map>
                         </option>
                       </PersistentState>
