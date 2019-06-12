@@ -23,7 +23,7 @@ public interface DefaultValue {
 
     String CONNECTION_FAIL = "FAIL";
     String VALID_EMAIL_ADDRESS ="^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
-    String VALID_PASSWORD = "^[a-zA-Z0-9!@.#$%^&*?_~]{6,16}$";
+    String VALID_PASSWORD = "^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@.#$%^&*?_~]).{6,16}$";
     String NORMAL_STATUS = "All Air Quality Sensor is working well";
     String ABNORMAL_STATUS = " is(are) not working";
     String VALID_MAC_ADDRESS = "[a-fA-F0-9]{12}";
