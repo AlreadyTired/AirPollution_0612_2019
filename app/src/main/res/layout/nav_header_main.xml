@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
 
-    <android.support.design.button.MaterialButton
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign In"

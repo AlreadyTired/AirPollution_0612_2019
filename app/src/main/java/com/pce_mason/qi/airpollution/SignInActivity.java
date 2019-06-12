@@ -7,9 +7,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.snackbar.ContentViewCallback;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -67,8 +69,9 @@ public class SignInActivity extends AppCompatActivity {
     private String userId = "userEmail";
 
     // UI references.
+    private TextInputEditText mEmailView;
     private TextInputLayout mEmailLayout, mPasswordLayout;
-    private EditText mPasswordView,mEmailView;
+    private EditText mPasswordView;
     private View mProgressView;
     private LinearLayout signInMainLayout, signInLayout;
     private int temporaryClientId;
@@ -102,7 +105,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
         // Set up the signIn form.
-        mEmailView = (EditText) findViewById(R.id.SignInEmail);
+        mEmailView = (TextInputEditText) findViewById(R.id.SignInEmail);
         mEmailLayout = (TextInputLayout)findViewById(R.id.SignInEmailLayout);
         mPasswordLayout = (TextInputLayout)findViewById(R.id.SignInPasswordLayout);
 
@@ -117,6 +120,35 @@ public class SignInActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+        mEmailView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(mEmailView);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(mEmailView);
+                }
+            }
+        });
+        mPasswordView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(mPasswordView);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(mPasswordView);
+                }
+            }
+        });
+
         Button mEmailSignInButton = (Button) findViewById(R.id.SignInAttemptBtn);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -198,8 +230,10 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         // Reset errors.
-        mEmailLayout.setError(null);
-        mPasswordLayout.setError(null);
+        mEmailLayout.setErrorEnabled(false);
+        mPasswordLayout.setErrorEnabled(false);
+        setEnableEdtBackground(mEmailView);
+        setEnableEdtBackground(mPasswordView);
 
         // Store values at the time of the signIn attempt.
         String email = mEmailView.getText().toString();
@@ -209,21 +243,27 @@ public class SignInActivity extends AppCompatActivity {
         View focusView = null;
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
+            mPasswordLayout.setErrorTextAppearance(R.style.errorcolor);
             mPasswordLayout.setError(getString(R.string.error_field_required));
+            setErrorEdtBackground(mPasswordView);
             focusView = mPasswordView;
             cancel = true;
         } else if (!isPasswordValid(password)) {
+            mPasswordLayout.setErrorTextAppearance(R.style.errorcolor);
             mPasswordLayout.setError(getString(R.string.error_invalid_password));
+            setErrorEdtBackground(mPasswordView);
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
+            mEmailLayout.setErrorTextAppearance(R.style.errorcolor);
             mEmailLayout.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
+            mEmailLayout.setErrorTextAppearance(R.style.errorcolor);
             mEmailLayout.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -233,6 +273,7 @@ public class SignInActivity extends AppCompatActivity {
             // There was an error; don't attempt signIn and focus the first
             // form field with an error.
             focusView.requestFocus();
+            setErrorEdtBackground((EditText)focusView);
         } else {
             showProgress(true);
             Log.d("SGI_REQ_TEST","Input Format Verified");
@@ -433,5 +474,22 @@ public class SignInActivity extends AppCompatActivity {
             toast = Toast.makeText(activity,"Press again to Exit",Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    public void setEnableEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_enable);
+        Edt.setTextColor(Color.parseColor(getString(R.string.Normal_Color)));
+    }
+
+    public void setFocusedEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_focused);
+    }
+
+    public void setErrorEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_error);
+        Edt.setTextColor(Color.parseColor(getString(R.string.Error_Color)));
     }
 }

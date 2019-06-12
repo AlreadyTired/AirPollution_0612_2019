@@ -30,5 +30,6 @@
     <dimen name="sgu_textinput_vertical_padding">5dp</dimen>
     <dimen name="Edit_Text_Height">56dp</dimen>
     <dimen name="Sgi_TextInput_margin">20dp</dimen>
+    <dimen name="fpu_layout_botton_margin">5dp</dimen>
 
 </resources>

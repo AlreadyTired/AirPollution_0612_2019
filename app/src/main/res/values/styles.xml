@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="colorControlActivated">#73a4fc</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,9 +15,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="mButtonStyle">
         <item name="android:textColor">@color/colorOnPrimary</item>
@@ -113,11 +115,17 @@
     </style>
 
     <style name="TextInputLayoutCustom" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:colorControlNormal">#61000000</item>
         <item name="android:colorControlActivated">#73a4fc</item>
-        <item name="android:colorAccent">#b00020</item>
+        <item name="android:colorControlHighlight">#b00020</item>
+        
     </style>
 
     <style name="TextInputLayoutSignInCustom" parent="@style/TextInputLayoutCustom">
         <item name="boxBackgroundColor">#ffffff</item>
+    </style>
+
+    <style name="errorcolor" parent="TextAppearance.Design.Error">
+        <item name="android:textColor">#b00020</item>
     </style>
 </resources>

@@ -40,67 +40,77 @@
                     android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"/>
             </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.pce_mason.qi.airpollution.CustomInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/Edit_Text_Height"
-                style="@style/TextInputLayoutCustom"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true"
+                android:gravity="center"
+                app:errorEnabled="true"
+                app:hintEnabled="false"
+                android:theme="@style/TextInputLayoutSignInCustom"
                 android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
                 android:id="@+id/SignUpEmailLayout">
 
                 <EditText
                     android:id="@+id/SignUpEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/Edit_Text_Height"
                     android:hint="@string/sign_up_email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:layout_marginStart="@dimen/textinput_leftmargin"/>
+                    android:background="@drawable/edittext_border_enable"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.pce_mason.qi.airpollution.CustomInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.pce_mason.qi.airpollution.CustomInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/Edit_Text_Height"
+                android:layout_height="wrap_content"
                 app:passwordToggleEnabled="true"
-                style="@style/TextInputLayoutCustom"
+                android:gravity="center"
+                app:errorEnabled="true"
+                app:hintEnabled="false"
+                android:theme="@style/TextInputLayoutSignInCustom"
                 android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
                 android:id="@+id/SignUpPasswordLayout">
 
                 <EditText
                     android:id="@+id/SignUpPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/Edit_Text_Height"
                     android:hint="@string/sign_up_password"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:layout_marginStart="@dimen/textinput_leftmargin"/>
+                    android:background="@drawable/edittext_border_enable"/>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.pce_mason.qi.airpollution.CustomInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.pce_mason.qi.airpollution.CustomInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/Edit_Text_Height"
+                android:layout_height="wrap_content"
                 app:passwordToggleEnabled="true"
-                style="@style/TextInputLayoutCustom"
+                android:gravity="center"
+                app:errorEnabled="true"
+                app:hintEnabled="false"
                 android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
+                android:theme="@style/TextInputLayoutSignInCustom"
                 android:id="@+id/SignUpConfirmPasswordLayout">
 
                 <EditText
                     android:id="@+id/SignUpConfirmPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/Edit_Text_Height"
                     android:hint="@string/sign_up_confirm_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:layout_marginStart="@dimen/textinput_leftmargin" />
+                    android:background="@drawable/edittext_border_enable" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.pce_mason.qi.airpollution.CustomInputLayout>
         </LinearLayout>
 
         <LinearLayout

@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         TextView navTitleTxv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_title_user_id);
-        MaterialButton navSigninBtn = (MaterialButton) navigationView.getHeaderView(0).findViewById(R.id.nav_signIn_btn);
+        Button navSigninBtn = (Button) navigationView.getHeaderView(0).findViewById(R.id.nav_signIn_btn);
         TextView navWelcomtxv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_welcome_text);
 
         navSigninBtn.setOnClickListener(new View.OnClickListener() {

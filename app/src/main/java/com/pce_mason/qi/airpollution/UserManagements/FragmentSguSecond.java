@@ -2,6 +2,7 @@ package com.pce_mason.qi.airpollution.UserManagements;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -103,6 +104,48 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
             ConfirmPasswordEdt.setText(mConfirmPassword);
         }
 
+        EmailEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(EmailEdt);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(EmailEdt);
+                }
+            }
+        });
+
+        PasswordEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(PasswordEdt);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(PasswordEdt);
+                }
+            }
+        });
+
+        ConfirmPasswordEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(ConfirmPasswordEdt);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(ConfirmPasswordEdt);
+                }
+            }
+        });
+
         ((SignUpActivity)getActivity()).SGUStatusBarChange(2);
         return view;
     }
@@ -130,6 +173,9 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
         EmailLayout.setError(null);
         PasswordLayout.setError(null);
         ConfromPasswordLayout.setError(null);
+        setEnableEdtBackground(EmailEdt);
+        setEnableEdtBackground(PasswordEdt);
+        setEnableEdtBackground(ConfirmPasswordEdt);
 
         String Password = PasswordEdt.getText().toString();
         String ConfirmPassword = ConfirmPasswordEdt.getText().toString();
@@ -140,31 +186,43 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
         hideKeyboard(getActivity());
         // Check for a valid email address.
         if (TextUtils.isEmpty(Email)) {
+            EmailLayout.setErrorTextAppearance(R.style.errorcolor);
             EmailLayout.setError(getString(R.string.error_field_required));
+            setErrorEdtBackground(EmailEdt);
             focusView = EmailEdt;
             cancel = true;
         } else if (!isEmailValid(Email)) {
+            EmailLayout.setErrorTextAppearance(R.style.errorcolor);
             EmailLayout.setError(getString(R.string.error_invalid_email));
+            setErrorEdtBackground(EmailEdt);
             focusView = EmailEdt;
             cancel = true;
         }
         // Check for a valid password
         if (TextUtils.isEmpty(Password)) {
+            PasswordLayout.setErrorTextAppearance(R.style.errorcolor);
             PasswordLayout.setError(getString(R.string.error_field_required));
+            setErrorEdtBackground(PasswordEdt);
             focusView = PasswordEdt;
             cancel = true;
         } else if (!isPasswordValid(Password)) {
+            PasswordLayout.setErrorTextAppearance(R.style.errorcolor);
             PasswordLayout.setError(getString(R.string.error_invalid_password));
+            setErrorEdtBackground(PasswordEdt);
             focusView = PasswordEdt;
             cancel = true;
         }
         // Check for a valid repeat password
         if (TextUtils.isEmpty(ConfirmPassword)) {
+            ConfromPasswordLayout.setErrorTextAppearance(R.style.errorcolor);
             ConfromPasswordLayout.setError(getString(R.string.error_field_required));
+            setErrorEdtBackground(ConfirmPasswordEdt);
             focusView = ConfirmPasswordEdt;
             cancel = true;
         } else if (!isPasswordsEqual(Password, ConfirmPassword)) {
+            ConfromPasswordLayout.setErrorTextAppearance(R.style.errorcolor);
             ConfromPasswordLayout.setError(getString(R.string.error_invalid_repeat_password));
+            setErrorEdtBackground(ConfirmPasswordEdt);
             focusView = ConfirmPasswordEdt;
             cancel = true;
         }
@@ -172,6 +230,7 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
         if(cancel)
         {
             focusView.requestFocus();
+            setErrorEdtBackground((EditText)focusView);
         }
         else
         {
@@ -266,7 +325,9 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
                         case ResultCode.RESCODE_SAP_SGU_DUPLICATE_OF_USER_ID:
                             APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;
                             StateCheck("SGU_RSP");
+                            EmailLayout.setErrorTextAppearance(R.style.errorcolor);
                             EmailLayout.setError(getString(R.string.error_invalid_email));
+                            setErrorEdtBackground(EmailEdt);
                             EmailEdt.requestFocus();
                             break;
                     }
@@ -358,5 +419,22 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
         mPassword = null;
         mConfirmPassword = null;
         super.onDestroy();
+    }
+
+    public void setEnableEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_enable);
+        Edt.setTextColor(Color.parseColor(getString(R.string.Normal_Color)));
+    }
+
+    public void setFocusedEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_focused);
+    }
+
+    public void setErrorEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_error);
+        Edt.setTextColor(Color.parseColor(getString(R.string.Error_Color)));
     }
 }

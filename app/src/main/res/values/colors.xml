@@ -39,4 +39,6 @@
     <color name="btn_text_basic_color">#ffffff</color>
     <color name="text_basic_color">#4c6283</color>
 
+    <!--Status Bar-->
+    <color name="status_bar">#ffffff</color>
 </resources>

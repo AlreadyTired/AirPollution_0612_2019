@@ -2,6 +2,7 @@ package com.pce_mason.qi.airpollution.UserManagements;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -101,6 +102,46 @@ public class FragmentSguFirst extends Fragment implements SignUpActivity.onKeyBa
             }
         });
 
+        FirstNameEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(FirstNameEdt);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(FirstNameEdt);
+                }
+            }
+        });
+        LastNameEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(LastNameEdt);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(LastNameEdt);
+                }
+            }
+        });
+        BirthDateEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFocusedEdtBackground(BirthDateEdt);
+                }
+                if(!hasFocus)
+                {
+                    setEnableEdtBackground(BirthDateEdt);
+                }
+            }
+        });
+
         // Top page status bar change
         ((SignUpActivity)getActivity()).SGUStatusBarChange(1);
 
@@ -149,6 +190,9 @@ public class FragmentSguFirst extends Fragment implements SignUpActivity.onKeyBa
         LastNameLayout.setError(null);
         BirthDateLayout.setError(null);
         RadioGroupLayout.setError(null);
+        setEnableEdtBackground(FirstNameEdt);
+        setEnableEdtBackground(LastNameEdt);
+        setEnableEdtBackground(BirthDateEdt);
 
         String LastName = LastNameEdt.getText().toString();
         String FirstName = FirstNameEdt.getText().toString();
@@ -159,25 +203,32 @@ public class FragmentSguFirst extends Fragment implements SignUpActivity.onKeyBa
         hideKeyboard(getActivity());
         // Check for a valid first name
         if (TextUtils.isEmpty(FirstName)) {
+            FirstNameLayout.setErrorTextAppearance(R.style.errorcolor);
             FirstNameLayout.setError(getString(R.string.sgu_name_valid_error));
+            setErrorEdtBackground(FirstNameEdt);
             focusView = FirstNameEdt;
             cancel = true;
         }
         // Check for a valid last name
         if (TextUtils.isEmpty(LastName)) {
+            LastNameLayout.setErrorTextAppearance(R.style.errorcolor);
             LastNameLayout.setError(getString(R.string.sgu_name_valid_error));
+            setErrorEdtBackground(LastNameEdt);
             focusView = LastNameEdt;
             cancel = true;
         }
         // Check for a valid birthDate
         if (TextUtils.isEmpty(BirthDate)) {
+            BirthDateLayout.setErrorTextAppearance(R.style.errorcolor);
             BirthDateLayout.setError(getString(R.string.birth_valid_error));
+            setErrorEdtBackground(BirthDateEdt);
             focusView = BirthDateEdt;
             cancel = true;
         }
         // Check for a valid gender
         if(!MaleBtn.isChecked() && !FemaleBtn.isChecked())
         {
+            RadioGroupLayout.setErrorTextAppearance(R.style.errorcolor);
             RadioGroupLayout.setError("Select one of those");
             focusView = RadioGroupLayout;
             cancel = true;
@@ -187,6 +238,7 @@ public class FragmentSguFirst extends Fragment implements SignUpActivity.onKeyBa
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+            if(focusView != RadioGroupLayout) { setErrorEdtBackground((EditText)focusView); }
         } else {
             ((SignUpActivity)getActivity()).replaceFragment(2,FragmentSguSecond.getInstance(FirstName,LastName,BirthDate,Gender));
         }
@@ -211,4 +263,20 @@ public class FragmentSguFirst extends Fragment implements SignUpActivity.onKeyBa
         return formatter.format(today);
     }
 
+    public void setEnableEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_enable);
+        Edt.setTextColor(Color.parseColor(getString(R.string.Normal_Color)));
+    }
+
+    public void setFocusedEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_focused);
+    }
+
+    public void setErrorEdtBackground(EditText Edt)
+    {
+        Edt.setBackgroundResource(R.drawable.edittext_border_error);
+        Edt.setTextColor(Color.parseColor(getString(R.string.Error_Color)));
+    }
 }

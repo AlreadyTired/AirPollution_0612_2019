@@ -180,6 +180,8 @@
     <string name="Authentication_code_blank_error">Please, enter the Authentication Code</string>
     <string name="sgu_name_valid_error">Name can\'t be blank.</string>
     <string name="birth_valid_error">Select the date of birth</string>
+    <string name="Error_Color">#b00020</string>
+    <string name="Normal_Color">#000000</string>
 
 
 </resources>

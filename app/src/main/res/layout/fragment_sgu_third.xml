@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UserManagements.FragmentSguThird"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/sgu_layout_padding">
@@ -48,24 +49,28 @@
                 android:layout_height="wrap_content"
                 android:text="@string/verificationi_number"
                 android:id="@+id/verificationCodeView"/>
-            <android.support.design.widget.TextInputLayout
+            <com.pce_mason.qi.airpollution.CustomInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/Edit_Text_Height"
-                style="@style/TextInputLayoutCustom"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true"
+                android:gravity="center"
+                app:errorEnabled="true"
+                app:hintEnabled="false"
+                android:theme="@style/TextInputLayoutSignInCustom"
                 android:layout_marginBottom="@dimen/sgu_layout_bottom_margin"
                 android:id="@+id/SignUpAuthenticationCodeLayout">
                 <EditText
                     android:id="@+id/SignUpAuthenticationCode"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/Edit_Text_Height"
                     android:hint="@string/authentication_code"
                     android:imeOptions="actionDone"
                     android:inputType="textEmailAddress"
                     android:maxLength="20"
                     android:maxLines="1"
-                    android:layout_marginLeft="@dimen/textinput_leftmargin"
+                    android:background="@drawable/edittext_border_enable"
                     android:singleLine="true" />
-            </android.support.design.widget.TextInputLayout>
+            </com.pce_mason.qi.airpollution.CustomInputLayout>
 
             <TextView
                 android:layout_width="wrap_content"
