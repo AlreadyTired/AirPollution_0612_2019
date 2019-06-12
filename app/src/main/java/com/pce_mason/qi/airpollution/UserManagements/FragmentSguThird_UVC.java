@@ -2,13 +2,11 @@ package com.pce_mason.qi.airpollution.UserManagements;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +31,6 @@ import com.pce_mason.qi.airpollution.SignInActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.annotation.Inherited;
 import java.util.concurrent.ExecutionException;
 
 import static com.pce_mason.qi.airpollution.AppClientHeader.CustomTimer.R102;
@@ -41,7 +38,7 @@ import static com.pce_mason.qi.airpollution.AppClientHeader.CustomTimer.T102;
 import static com.pce_mason.qi.airpollution.MainActivity.APP_STATE;
 import static com.pce_mason.qi.airpollution.MainActivity.StateCheck;
 
-public class FragmentSguThird extends Fragment implements SignUpActivity.onKeyBackPressedListener{
+public class FragmentSguThird_UVC extends Fragment implements SignUpActivity.onKeyBackPressedListener{
 
     private int AUTHENTICATION_CODE_LENGTH = 20;
     private View view;
@@ -57,7 +54,7 @@ public class FragmentSguThird extends Fragment implements SignUpActivity.onKeyBa
     private int temporaryClientId;
     private long remindTime;
 
-    public FragmentSguThird() {
+    public FragmentSguThird_UVC() {
         // Required empty public constructor
     }
     @Override
@@ -125,9 +122,9 @@ public class FragmentSguThird extends Fragment implements SignUpActivity.onKeyBa
         return view;
     }
 
-    public static FragmentSguThird getInstance(String Email, String VerificationCode, String TCI)
+    public static FragmentSguThird_UVC getInstance(String Email, String VerificationCode, String TCI)
     {
-        FragmentSguThird mFragment = new FragmentSguThird();
+        FragmentSguThird_UVC mFragment = new FragmentSguThird_UVC();
         Bundle args = new Bundle();
         args.putString("Email",Email);
         args.putString("VerificationCode",VerificationCode);

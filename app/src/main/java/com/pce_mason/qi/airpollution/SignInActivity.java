@@ -305,7 +305,6 @@ public class SignInActivity extends AppCompatActivity {
                     boolean RetryFlag = messageResultProcess(mAuthTask.execute(airUrl, reqMsg).get());
                     if(RetryFlag) { break; }
                 }
-                MainActivity.USER_ID = email;
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -343,11 +342,12 @@ public class SignInActivity extends AppCompatActivity {
                     int resultCode = jsonPayload.getInt("resultCode");
                     switch (resultCode){
                         case ResultCode.RESCODE_SAP_SGI_OK:
-                            MainActivity.USER_SEQUENCE_NUMBER = jsonPayload.getInt(userSequenceNumber);
-                            MainActivity.NUMBER_OF_SIGNED_IN_COMPLETIONS = jsonPayload.getInt(numberOfSignedInComp);
                             APP_STATE = StateNumber.STATE_SAP.USN_INFORMED_STATE;
                             StateCheck("SGI_RSP");
                             Intent mainIt = new Intent(SignInActivity.this, MainActivity.class);
+                            mainIt.putExtra(getString(R.string.email_intent_string),mEmailView.getText().toString());
+                            mainIt.putExtra(getString(R.string.USN_Intent_string),jsonPayload.getInt(userSequenceNumber));
+                            mainIt.putExtra(getString(R.string.NSC_Intent_string),jsonPayload.getInt(numberOfSignedInComp));
                             saveUserId();
                             startActivity(mainIt);
                             finish();

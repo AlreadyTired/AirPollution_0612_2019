@@ -182,6 +182,10 @@
     <string name="birth_valid_error">Select the date of birth</string>
     <string name="Error_Color">#b00020</string>
     <string name="Normal_Color">#000000</string>
+    <string name="email_intent_string">Email</string>
+    <string name="USN_Intent_string">UserSequenceNumber</string>
+    <string name="NSC_Intent_string">NumberOfSignedInCompletions</string>
+    <string name="Garbage_data_for_missing_data">4294967295</string>
 
 
 </resources>

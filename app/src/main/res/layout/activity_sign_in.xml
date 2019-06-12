@@ -160,7 +160,7 @@
                 android:layout_alignParentEnd="true"
                 android:textColor="#4169e1"
                 android:background="?attr/selectableItemBackground"
-                android:paddingTop="15dp"
+                android:padding="15dp"
                 android:textSize="15sp"
                 android:text="SKIP"/>
             <ImageView

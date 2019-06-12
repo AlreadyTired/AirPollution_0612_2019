@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_down_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/toggle/ic_star_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,13 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="555555" />
-                            <entry key="height" value="32" />
-                            <entry key="outputName" value="ic_icon_airoundu" />
+                            <entry key="color" value="d8d8d8" />
+                            <entry key="outputName" value="ic_star_black_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\KimHyunWoo\Desktop\QI Intership\Study\Android Design\ICON\icon_airoundU.svg" />
-                            <entry key="width" value="112" />
                           </map>
                         </option>
                       </PersistentState>

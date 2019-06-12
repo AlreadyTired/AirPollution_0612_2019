@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -242,7 +241,6 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
     private void requestMessageProcess(){
         if(mAuthTask != null)
         {
-            Log.d("Test","Check1");
             return;
         }
         if(APP_STATE == StateNumber.STATE_SAP.IDLE_STATE) {
@@ -309,7 +307,7 @@ public class FragmentSguSecond extends Fragment implements SignUpActivity.onKeyB
                         case ResultCode.RESCODE_SAP_SGU_OK:
                             String verificationCode = null;
                             verificationCode = jsonPayload.getString(verificationCde);
-                            ((SignUpActivity)getActivity()).replaceFragment(3,FragmentSguThird.getInstance(Email,verificationCode,String.valueOf(temporaryClientId)));
+                            ((SignUpActivity)getActivity()).replaceFragment(3, FragmentSguThird_UVC.getInstance(Email,verificationCode,String.valueOf(temporaryClientId)));
                             break;
                         case ResultCode.RESCODE_SAP_SGU_OTHER:
                             APP_STATE = StateNumber.STATE_SAP.IDLE_STATE;

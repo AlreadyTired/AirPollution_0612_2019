@@ -48,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity{
         // Fragment setting
         Firstfragment = new FragmentSguFirst();
         Secondfragment = new FragmentSguSecond();
-        Thirdfragment = new FragmentSguThird();
+        Thirdfragment = new FragmentSguThird_UVC();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.sgu_frame_layout,Firstfragment,"FirstFragment").commit();
     }
@@ -111,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity{
         }
 
         public  void showGuide() {
-            toast = Toast.makeText(activity,"Press again to Exit",Toast.LENGTH_SHORT);
+            toast = Toast.makeText(activity,"Press again to Main",Toast.LENGTH_SHORT);
             toast.show();
         }
     }

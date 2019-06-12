@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -88,6 +89,10 @@ public class MainActivity extends AppCompatActivity
     private HttpConnectionThread mAuthTask;
     private CoordinatorLayout mFrontMain;
     public RelativeLayout searchBar;
+    private TextView navTitleTxv, navWelcomtxv;
+    private Button navSigninBtn;
+    private NavigationView navigationView;
+    private LinearLayout userIdLayout;
 
     //Real-Time Heart data Items
     private ConcurrentHashMap<String,HeartDataItem> mHeartDataList, mUnsuccessfulDataList, mTransferringDataList;
@@ -148,6 +153,11 @@ public class MainActivity extends AppCompatActivity
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         backPressCloseHandler = new BackPressCloseHandler(this);
 
+        Intent intent = getIntent();
+        USER_ID = intent.getStringExtra(getString(R.string.email_intent_string));
+        USER_SEQUENCE_NUMBER = intent.getIntExtra(getString(R.string.USN_Intent_string),0);
+        NUMBER_OF_SIGNED_IN_COMPLETIONS = intent.getIntExtra(getString(R.string.NSC_Intent_string),0);
+
         mHeartDataList = new ConcurrentHashMap<String, HeartDataItem>();
         mUnsuccessfulDataList= new ConcurrentHashMap<String, HeartDataItem>();
         mTransferringDataList= new ConcurrentHashMap<String, HeartDataItem>();
@@ -174,11 +184,13 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        TextView navTitleTxv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_title_user_id);
-        Button navSigninBtn = (Button) navigationView.getHeaderView(0).findViewById(R.id.nav_signIn_btn);
-        TextView navWelcomtxv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_welcome_text);
+        View header = navigationView.getHeaderView(0);
+        navTitleTxv = (TextView) header.findViewById(R.id.nav_title_user_id);
+        navSigninBtn = (Button) header.findViewById(R.id.nav_signIn_btn);
+        navWelcomtxv = (TextView) header.findViewById(R.id.nav_welcome_text);
+        userIdLayout = (LinearLayout)header.findViewById(R.id.nav_title_user_id_layout);
 
         navSigninBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,20 +203,21 @@ public class MainActivity extends AppCompatActivity
         Menu menu = navigationView.getMenu();
         MenuItem NV_passwordchange_item = menu.findItem(R.id.nav_passwordChange);
         MenuItem NV_signout_item = menu.findItem(R.id.nav_signOut);
+
         if(USER_SEQUENCE_NUMBER != 0)
         {
             navSigninBtn.setVisibility(View.GONE);
             navWelcomtxv.setText("Welcome");
             NV_passwordchange_item.setVisible(true);
             NV_signout_item.setVisible(true);
-            navTitleTxv.setVisibility(View.VISIBLE);
+            userIdLayout.setVisibility(View.VISIBLE);
             navTitleTxv.setText(USER_ID);
         }
-        else
+        else if(USER_SEQUENCE_NUMBER == 0)
         {
             navSigninBtn.setVisibility(View.VISIBLE);
             navWelcomtxv.setText("Hi! there");
-            navTitleTxv.setVisibility(View.GONE);
+            userIdLayout.setVisibility(View.GONE);
             NV_passwordchange_item.setVisible(false);
             NV_signout_item.setVisible(false);
         }
@@ -259,12 +272,9 @@ public class MainActivity extends AppCompatActivity
                         }
                         else if(Temp - ((TimestampNumericalStart+mHeartDataList.size())%transmissionCount) > 0)
                         {
-                            Log.d("D/RHD_ACK_TEST","{\"header\":{\"msgType\":\"56\"" + " Check!@@@@@@@@@@@@@@@@@@@@@@");
+                            Log.d("D/RHD_ACK_TEST","Catch missing data and replace");
                             TempHeartData.timeStamp = String.valueOf(Integer.valueOf(timeStamp)-1);
-                            TempHeartData.heartRate = "4294967295" ;
-                            TempHeartData.rrInterval = "4294967295";
-                            TempHeartData.latitude = "4294967295";
-                            TempHeartData.longitude = "4294967295";
+                            TempHeartData.heartRate = TempHeartData.rrInterval = TempHeartData.latitude = TempHeartData.longitude = getString(R.string.Garbage_data_for_missing_data);
                             mHeartDataList.put(TempHeartData.timeStamp,TempHeartData);
                         }
                     }

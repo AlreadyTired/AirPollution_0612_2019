@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UserManagements.FragmentSguThird"
+    tools:context=".UserManagements.FragmentSguThird_UVC"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/sgu_layout_padding">
 

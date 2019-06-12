@@ -315,7 +315,6 @@ public class HeartDataViewFragment extends Fragment {
                 e.printStackTrace();
             };
         }
-        Log.d("Historical Heart Size",String.valueOf(mRealTimeItems.size()));
         if(mRealTimeItems.size() != 0) {
             historyHeartDataArranger = new HistoryHeartDataArranger(mRealTimeItems);
             mHistoryChartItems = historyHeartDataArranger.getChartItem();
