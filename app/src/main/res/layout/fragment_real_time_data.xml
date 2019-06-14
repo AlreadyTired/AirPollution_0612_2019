@@ -1,37 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RealTimeAirDataMonitoring.RealTimeDataFragment">
+    tools:context=".RealTimeAirDataMonitoring.RealTimeDataFragment"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
 
     <fragment
         android:id="@+id/fragmentMap"
-        android:name="com.google.android.gms.maps.MapFragment"
+        class="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:id="@+id/MainBar"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="horizontal"
+                android:weightSum="10"                >
+
+                <ImageButton
+                    android:id="@+id/Navigation_Hamburg_Btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#ffffff"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_dehaze_black_24dp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:imeOptions="actionSearch"
+                    android:drawableLeft="@drawable/ic_search_black_24dp"
+                    android:layout_weight="8"
+                    android:hint="Search" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#ffffff"
+                    android:id="@+id/EditTextClear"
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_close_black_24dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
     <!--<android.support.v7.widget.RecyclerView-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:tools="http://schemas.android.com/tools"-->
-        <!--app:layout_behavior="@string/bottom_sheet_behavior"-->
-        <!--android:id="@+id/realTimeAirDataList"-->
-        <!--android:name="com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.RealTimeDataFragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--tools:listitem="@layout/recycler_view_item_real_time_air_data">-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--app:layout_behavior="@string/bottom_sheet_behavior"-->
+    <!--android:id="@+id/realTimeAirDataList"-->
+    <!--android:name="com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.RealTimeDataFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:listitem="@layout/recycler_view_item_real_time_air_data">-->
     <!--</android.support.v7.widget.RecyclerView>-->
 
-    <LinearLayout
+
+    <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:id="@+id/real_time_air_bottom_view"
-        android:background="@android:color/transparent"
-        app:layout_behavior="@string/bottom_sheet_behavior">
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="@dimen/mCardCornerRadius"
+        >
         <include layout="@layout/real_time_air_data_detail" />
         <!--<include layout="@layout/recycler_view_real_time_air_data" />-->
-    </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/material_design_android_floating_action_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_marginLeft="11dp"
+        android:layout_marginBottom="11dp"
+        fab:layout_anchor="@+id/current_location"
+        fab:layout_anchorGravity="top|center"
+        fab:menu_animationDelayPerItem="55"
+        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_buttonSpacing="0dp"
+        fab:menu_colorNormal="#ffffff"
+        fab:menu_colorPressed="#555555"
+        fab:menu_colorRipple="#99d4d4d4"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/ic_fab_add"
+        fab:menu_openDirection="up"
+        fab:menu_shadowColor="#66aff198"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="4dp"
+        fab:menu_showShadow="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_NO2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_add"
+            app:fab_colorNormal="#ffffff"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_O3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_home"
+            app:fab_colorNormal="#ffffff"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_SO2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_heart"
+            app:fab_colorNormal="#ffffff"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_CO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_heart"
+            app:fab_colorNormal="#ffffff"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_PM25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_heart"
+            app:fab_colorNormal="#ffffff"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_AQI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_heart"
+            app:fab_colorNormal="#ffffff"
+            fab:fab_size="mini" />
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/current_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="11dp"
+        android:elevation="10dp"
+        android:src="@drawable/ic_near_me_black_24dp"
+        fab:fab_colorNormal="#0000ff"
+        fab:fab_colorPressed="#555555"
+        fab:fab_colorRipple="#99d4d4d4"
+        fab:fab_shadowColor="#66aff198"
+        fab:fab_shadowRadius="4dp"
+        fab:fab_shadowXOffset="1dp"
+        fab:fab_shadowYOffset="4dp"
+        fab:fab_showShadow="true"
+        fab:layout_anchor="@+id/real_time_air_bottom_view"
+        fab:layout_anchorGravity="end|top" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -4,32 +4,159 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:name="com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.RealTimeDataFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/real_time_air_wifi_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:elevation="@dimen/mCardElevation"
-        android:layout_margin="@dimen/activity_all_margin"
-        android:padding="@dimen/activity_all_margin"/>
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:paddingHorizontal="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pin_drop_black_24dp"/>
+        <TextView
+            android:id="@+id/datail_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#4c6283"
+            android:letterSpacing="-0.08"
+            android:text="SanDiego, "/>
+        <TextView
+            android:id="@+id/datail_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#4c6283"
+            android:letterSpacing="-0.08"
+            android:text="CA, "/>
+        <TextView
+            android:id="@+id/datail_nation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#4c6283"
+            android:letterSpacing="-0.08"
+            android:text="USA "/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="2"
+        android:paddingTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:textColor="#4c6283"
+            android:letterSpacing="-0.08"
+            android:text="Good"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="bottom|start">
+            <TextView
+                android:id="@+id/temperature_detail_txv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:gravity="bottom|start"
+                android:textColor="#4c6283"
+                android:letterSpacing="-0.08"
+                android:text="40F"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:textColor="#4c6283"
+                android:letterSpacing="-0.08"
+                android:gravity="center_horizontal"
+                android:text="AQI\n26"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="right|bottom">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:textColor="#4c6283"
+                android:letterSpacing="-0.08"
+                android:gravity="end"
+                android:text="Today\n11:00AM"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2">
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#de000000"
+        android:layout_marginVertical="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        >
 
         <!--CO Progress-->
         <android.support.design.card.MaterialCardView
             style="@style/real_time_map_detail_card_view"
-            app:cardElevation="@dimen/mCardElevation"
-            app:cardCornerRadius="@dimen/mCardCornerRadius">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp"
+            >
 
             <LinearLayout
                 style="@style/real_time_map_detail_linear_layout">
+                <TextView
+                    style="@style/real_time_map_detail_label_text"
+                    android:text="@string/air_quality_co"/>
+                <TextView
+                    style="@style/real_time_figure_detail"
+                    android:text="@string/real_time_CO_figure"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -38,16 +165,14 @@
                         android:id="@+id/co_detail_progress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_all_margin" />
+                        android:layout_margin="@dimen/circulation_margin" />
 
                     <TextView
                         style="@style/real_time_map_detail_progress_text"
                         android:id="@+id/co_detail_txv"/>
                 </RelativeLayout>
 
-                <TextView
-                    style="@style/real_time_map_detail_label_text"
-                    android:text="@string/air_quality_co"/>
+
             </LinearLayout>
 
         </android.support.design.card.MaterialCardView>
@@ -55,127 +180,113 @@
         <!--O3 Progress-->
         <android.support.design.card.MaterialCardView
             style="@style/real_time_map_detail_card_view"
-            app:cardElevation="@dimen/mCardElevation"
-            app:cardCornerRadius="@dimen/mCardCornerRadius">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 style="@style/real_time_map_detail_linear_layout">
+                <TextView
+                    style="@style/real_time_map_detail_label_text"
+                    android:text="@string/air_quality_o3"/>
+                <TextView
+                    style="@style/real_time_figure_detail"
+                    android:text="@string/real_time_O3_figure"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.CircularProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_all_margin"
+                        android:layout_margin="@dimen/circulation_margin"
                         android:id="@+id/o3_detail_progress"/>
                     <TextView
                         style="@style/real_time_map_detail_progress_text"
                         android:id="@+id/o3_detail_txv"/>
                 </RelativeLayout>
-                <TextView
-                    style="@style/real_time_map_detail_label_text"
-                    android:text="@string/air_quality_o3"/>
             </LinearLayout>
         </android.support.design.card.MaterialCardView>
 
         <!--NO2 Progress-->
         <android.support.design.card.MaterialCardView
             style="@style/real_time_map_detail_card_view"
-            app:cardElevation="@dimen/mCardElevation"
-            app:cardCornerRadius="@dimen/mCardCornerRadius">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp">
             <LinearLayout
                 style="@style/real_time_map_detail_linear_layout">
+                <TextView
+                    style="@style/real_time_map_detail_label_text"
+                    android:text="@string/air_quality_no2"/>
+                <TextView
+                    style="@style/real_time_figure_detail"
+                    android:text="@string/real_time_NO2_figure"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.CircularProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_all_margin"
+                        android:layout_margin="@dimen/circulation_margin"
                         android:id="@+id/no2_detail_progress"/>
                     <TextView
                         style="@style/real_time_map_detail_progress_text"
                         android:id="@+id/no2_detail_txv"/>
                 </RelativeLayout>
-                <TextView
-                    style="@style/real_time_map_detail_label_text"
-                    android:text="@string/air_quality_no2"/>
             </LinearLayout>
         </android.support.design.card.MaterialCardView>
 
         <!--SO2 Progress-->
         <android.support.design.card.MaterialCardView
             style="@style/real_time_map_detail_card_view"
-            app:cardElevation="@dimen/mCardElevation"
-            app:cardCornerRadius="@dimen/mCardCornerRadius">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp">
             <LinearLayout
                 style="@style/real_time_map_detail_linear_layout">
+                <TextView
+                    style="@style/real_time_map_detail_label_text"
+                    android:text="@string/air_quality_so2"/>
+                <TextView
+                    style="@style/real_time_figure_detail"
+                    android:text="@string/real_time_SO2_figure"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.CircularProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_all_margin"
+                        android:layout_margin="@dimen/circulation_margin"
                         android:id="@+id/so2_detail_progress"/>
                     <TextView
                         style="@style/real_time_map_detail_progress_text"
                         android:id="@+id/so2_detail_txv"/>
                 </RelativeLayout>
-                <TextView
-                    style="@style/real_time_map_detail_label_text"
-                    android:text="@string/air_quality_so2"/>
             </LinearLayout>
         </android.support.design.card.MaterialCardView>
 
         <!--PM2.5 Progress-->
         <android.support.design.card.MaterialCardView
             style="@style/real_time_map_detail_card_view"
-            app:cardElevation="@dimen/mCardElevation"
-            app:cardCornerRadius="@dimen/mCardCornerRadius">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp">
             <LinearLayout
                 style="@style/real_time_map_detail_linear_layout">
+                <TextView
+                    style="@style/real_time_map_detail_label_text"
+                    android:text="@string/air_quality_pm25"/>
+                <TextView
+                    style="@style/real_time_figure_detail"
+                    android:text="@string/real_time_pm25_figure"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.CircularProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_all_margin"
+                        android:layout_margin="@dimen/circulation_margin"
                         android:id="@+id/pm25_detail_progress"/>
                     <TextView
                         style="@style/real_time_map_detail_progress_text"
                         android:id="@+id/pm25_detail_txv"/>
                 </RelativeLayout>
-                <TextView
-                    style="@style/real_time_map_detail_label_text"
-                    android:text="@string/air_quality_pm25"/>
-            </LinearLayout>
-        </android.support.design.card.MaterialCardView>
-
-        <!--Temperature Progress-->
-        <android.support.design.card.MaterialCardView
-            style="@style/real_time_map_detail_card_view"
-            app:cardElevation="@dimen/mCardElevation"
-            app:cardCornerRadius="@dimen/mCardCornerRadius">
-            <LinearLayout
-                style="@style/real_time_map_detail_linear_layout">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.CircularProgressBar
-                        android:id="@+id/temperature_detail_progress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_all_margin" />
-                    <TextView
-                        style="@style/real_time_map_detail_progress_text"
-                        android:id="@+id/temperature_detail_txv"/>
-                </RelativeLayout>
-                <TextView
-                    style="@style/real_time_map_detail_label_text"
-                    android:text="@string/air_quality_temp"/>
             </LinearLayout>
         </android.support.design.card.MaterialCardView>
 

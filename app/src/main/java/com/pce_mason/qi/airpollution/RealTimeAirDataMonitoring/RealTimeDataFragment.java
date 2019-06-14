@@ -1,26 +1,36 @@
 package com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.design.card.MaterialCardView;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.DrawerLayout;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -35,6 +45,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.maps.android.clustering.ClusterManager;
 import com.pce_mason.qi.airpollution.AppClientHeader.DefaultValue;
 import com.pce_mason.qi.airpollution.AppClientHeader.MessageType;
@@ -56,6 +73,7 @@ import org.json.JSONObject;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -74,6 +92,20 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
     GpsInfo gpsInfo;
     Context context;
 
+    //AutoComplete
+    AutoCompleteTextView autoCompleteTextView;
+    AutoCompleteAdapter adapter;
+    PlacesClient placesClient;
+    String apiKey = "AIzaSyDZPZjZ2VxDSI3N-JT970CuZVG3_ppm35c";
+    ImageButton SearchBarClearBtn;
+
+    //Floating Action Button
+    FloatingActionMenu materialDesignFAM;
+    FloatingActionButton Fab_NO2, Fab_O3, Fab_SO2, Fab_CO, Fab_PM25, Fab_AQI, CurrentLocationFAB;
+
+    //Navigation bar Btn
+    ImageButton MapHamBtn;
+
     Timer refreshTimer = null;
     private int refreshTime = 10 * 1000;
     private Handler mHandler;
@@ -81,8 +113,8 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
     private ColorCalculator colorCalculator;
 
     private BottomSheetBehavior bottomSheetBehavior;
-    private LinearLayout bottomSheet;
-    private TextView wifiDetailTxv, coDetailTxv, o3DetailTxv, no2DetailTxv, so2DetailTxv, pm25DetailTxv, tempDetailTxv;
+    private MaterialCardView bottomSheet;
+    private TextView coDetailTxv, o3DetailTxv, no2DetailTxv, so2DetailTxv, pm25DetailTxv, tempDetailTxv;
     private CircularProgressBar coDetailProgress, o3DetailProgress, no2DetailProgress, so2DetailProgress, pm25DetailProgress, tempDetailProgress;
 
     private float mMapZoomLevel = 14;
@@ -150,15 +182,24 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
 //
 //        recyclerView.setAdapter(new RealTimeDataListAdapter(mRealTimeItems, context));
 
-        bottomSheet = (LinearLayout) view.findViewById(R.id.real_time_air_bottom_view);
+        bottomSheet = (MaterialCardView) view.findViewById(R.id.real_time_air_bottom_view);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, peekHeightDp, getResources().getDisplayMetrics()));
-        bottomSheet.setVisibility(View.GONE);
+                TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics()));
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
+                if (materialDesignFAM.isOpened()) {
+                    materialDesignFAM.close(true);
+                }
+            }
 
-        wifiDetailTxv = (TextView) view.findViewById(R.id.real_time_air_wifi_detail);
-        wifiDetailTxv.setHeight((int) (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, peekHeightDp, getResources().getDisplayMetrics()));
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+
+            }
+        });
+
         coDetailTxv = (TextView) view.findViewById(R.id.co_detail_txv);
         o3DetailTxv = (TextView) view.findViewById(R.id.o3_detail_txv);
         no2DetailTxv = (TextView) view.findViewById(R.id.no2_detail_txv);
@@ -171,25 +212,171 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         no2DetailProgress = (CircularProgressBar) view.findViewById(R.id.no2_detail_progress);
         so2DetailProgress = (CircularProgressBar) view.findViewById(R.id.so2_detail_progress);
         pm25DetailProgress = (CircularProgressBar) view.findViewById(R.id.pm25_detail_progress);
-        tempDetailProgress = (CircularProgressBar) view.findViewById(R.id.temperature_detail_progress);
 
         initProgress(coDetailProgress,500,0);
         initProgress(o3DetailProgress,500,0);
         initProgress(no2DetailProgress,500,0);
         initProgress(so2DetailProgress,500,0);
         initProgress(pm25DetailProgress,500,0);
-        initProgress(tempDetailProgress,100,-30);
 
+        //Floating Action Button
+        materialDesignFAM = (FloatingActionMenu) view.findViewById(R.id.material_design_android_floating_action_menu);
+        Fab_NO2 = (FloatingActionButton) view.findViewById(R.id.fab_NO2);
+        Fab_O3 = (FloatingActionButton) view.findViewById(R.id.fab_O3);
+        Fab_SO2 = (FloatingActionButton) view.findViewById(R.id.fab_SO2);
+        Fab_CO = (FloatingActionButton) view.findViewById(R.id.fab_CO);
+        Fab_PM25 = (FloatingActionButton) view.findViewById(R.id.fab_PM25);
+        Fab_AQI = (FloatingActionButton) view.findViewById(R.id.fab_AQI);
+        CurrentLocationFAB = (FloatingActionButton) view.findViewById(R.id.current_location);
 
+        materialDesignFAM.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (materialDesignFAM.isOpened()) {
+                    materialDesignFAM.close(true);
+                } else {
+                    materialDesignFAM.open(true);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+
+            }
+        });
+        Fab_NO2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu first item clicked
+                Toast.makeText(getContext().getApplicationContext(), "FAB1", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Fab_O3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu second item clicked
+                Toast.makeText(getContext().getApplicationContext(), "FAB2", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Fab_SO2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu third item clicked
+                Toast.makeText(getContext().getApplicationContext(), "FAB3", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Fab_CO.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu third item clicked
+                Toast.makeText(getContext().getApplicationContext(), "FAB4", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Fab_PM25.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu third item clicked
+                Toast.makeText(getContext().getApplicationContext(), "FAB5", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Fab_AQI.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu third item clicked
+                Toast.makeText(getContext().getApplicationContext(), "FAB6", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        CurrentLocationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double Lat = gpsInfo.getLatitude();
+                double lon = gpsInfo.getLongitude();
+                LatLng latLng = new LatLng(Lat, lon);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+            }
+        });
+
+        //This code is to open the navigation bar using the other hamburger button instead of an app bar hamburger button
+        final DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        MapHamBtn = (ImageButton) view.findViewById(R.id.Navigation_Hamburg_Btn);
+        MapHamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
 
 //        MapView map = (MapView) view.findViewById(R.id.fragmentMap);
 //        map.getMapAsync(this);
         final MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.fragmentMap);
         mapFragment.getMapAsync(this);
-        initAutocompletePlaceInput();
+//        initAutocompletePlaceInput();
+
+        //AutoCompleteTextview
+        // Setup Places Client
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext().getApplicationContext(), apiKey);
+        }
+
+        placesClient = Places.createClient(getContext());
+        initAutoCompleteTextView();
+        SearchBarClearBtn = (ImageButton)view.findViewById(R.id.EditTextClear);
+        SearchBarClearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoCompleteTextView.setText("");
+            }
+        });
+
         return view;
     }
+
+    private void initAutoCompleteTextView() {
+
+        autoCompleteTextView = view.findViewById(R.id.auto);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setOnItemClickListener(autocompleteClickListener);
+        adapter = new AutoCompleteAdapter(getContext(), placesClient);
+        autoCompleteTextView.setAdapter(adapter);
+    }
+
+    private AdapterView.OnItemClickListener autocompleteClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            try {
+                final AutocompletePrediction item = adapter.getItem(i);
+                String placeID = null;
+                if (item != null) {
+                    placeID = item.getPlaceId();
+                }
+
+//                To specify which data types to return, pass an array of Place.Fields in your FetchPlaceRequest
+//                Use only those fields which are required.
+
+                List<com.google.android.libraries.places.api.model.Place.Field> placeFields = Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME, com.google.android.libraries.places.api.model.Place.Field.ADDRESS
+                        , com.google.android.libraries.places.api.model.Place.Field.LAT_LNG);
+
+                FetchPlaceRequest request = null;
+                if (placeID != null) {
+                    request = FetchPlaceRequest.builder(placeID, placeFields)
+                            .build();
+                }
+
+                if (request != null) {
+                    placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onSuccess(FetchPlaceResponse task) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(task.getPlace().getLatLng()));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 
     private void initRefreshHandler(){
         mHandler = new Handler(){
@@ -418,15 +605,17 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
 //        googleMap.moveCamera(CameraUpdateFactory.newLatLng(QI));
 //        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsInfo.getLatitude(), gpsInfo.getLongitude()), mMapZoomLevel));
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle_retro));
+//        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle_custom));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 for(int i=0; i<mRealTimeItems.size(); i++){
-                    if(mRealTimeItems.get(i).wifiMacAddress.equals(marker.getTitle())){
+                    if (mRealTimeItems.get(i).wifiMacAddress.equals(marker.getTitle())) {
                         setBottomSheetItem(i);
                         bottomSheet.setVisibility(View.VISIBLE);
                         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(
+                                TypedValue.COMPLEX_UNIT_DIP, peekHeightDp, getResources().getDisplayMetrics()));
                     }
                 }
                 return false;
@@ -457,7 +646,6 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         String wifiTime = mRealTimeItems.get(itemIndex).wifiMacAddress + " (" +
                 sensingTimeFormat.format(sensingDate) +")";
 
-        wifiDetailTxv.setText(wifiTime);
         coDetailTxv.setText(mRealTimeItems.get(itemIndex).coAqi);
         o3DetailTxv.setText(mRealTimeItems.get(itemIndex).o3Aqi);
         no2DetailTxv.setText(mRealTimeItems.get(itemIndex).no2Aqi);
@@ -469,12 +657,6 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         progressChanger(no2DetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).no2Aqi));
         progressChanger(so2DetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).so2Aqi));
         progressChanger(pm25DetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).pm25));
-        progressChanger(tempDetailProgress,Float.parseFloat(mRealTimeItems.get(itemIndex).temperature));
-
-        wifiDetailTxv.setBackgroundColor(mRealTimeItems.get(itemIndex).mMarkerColor);
-        wifiDetailTxv.setTextColor(colorCalculator.textColorPicker(mRealTimeItems.get(itemIndex).mHighestValue));
-
-
     }
     private void setUpCluster() {
         // Position the map.

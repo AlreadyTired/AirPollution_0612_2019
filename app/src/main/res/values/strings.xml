@@ -137,6 +137,11 @@
     <string name="air_quality_o3">O3</string>
     <string name="air_quality_pm25">PM2.5</string>
     <string name="air_quality_temp">Temperature</string>
+    <string name="real_time_CO_figure">(ppm)</string>
+    <string name="real_time_O3_figure">(ppm)</string>
+    <string name="real_time_NO2_figure">(ppb)</string>
+    <string name="real_time_SO2_figure">(ppb)</string>
+    <string name="real_time_pm25_figure">(µg/m3)</string>
 
     <!--Heart data Managements-->
     <string name="heart_connect_device">Connect Device</string>

@@ -79,11 +79,6 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:orientation">vertical</item>
     </style>
-    <style name="real_time_map_detail_label_text">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Small</item>
-    </style>
     <style name="real_time_map_detail_card_view">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -97,6 +92,17 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="real_time_map_detail_label_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Small</item>
+    </style>
+    <style name="real_time_figure_detail">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textSize">12sp</item>
+    <item name="android:textColor">#4c6283</item>
+</style>
 
     <style name="FlatOKButton" parent="Widget.AppCompat.Button.Borderless">
 
@@ -128,4 +134,5 @@
     <style name="errorcolor" parent="TextAppearance.Design.Error">
         <item name="android:textColor">#b00020</item>
     </style>
+
 </resources>

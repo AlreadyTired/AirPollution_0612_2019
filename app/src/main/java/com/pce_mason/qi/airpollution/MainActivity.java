@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity
 
         mProgressbar = (ProgressBar) findViewById(R.id.main_progress);
         mFrontMain = (CoordinatorLayout) findViewById(R.id.main_front_view);
-        displaySelectedFragment(R.id.nav_home); //display change main activity view -> main fragment view
+        displaySelectedFragment(R.id.nav_real_time_map); //display change main activity view -> main fragment view
 
         LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(mBroadcastReceiver, new IntentFilter("heartData"));
         //LocalBroadcastManager resister
@@ -386,18 +386,15 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         searchBar.setVisibility(View.GONE);
         switch (id){
-            case R.id.nav_home:
-                toolbar.setTitle(getResources().getString(R.string.home_title));
-                ToolbarMenuReset();
-                fragment = MainFragment.newInstance(MainActivity.this);
-                break;
             case R.id.nav_real_time_map:
                 toolbar.setTitle(getResources().getString(R.string.label_real_time_map));
                 ToolbarMenuReset();
+                getSupportActionBar().hide();
                 fragment = RealTimeDataFragment.newInstance(MainActivity.this);
                 searchBar.setVisibility(View.VISIBLE);
                 break;
             case R.id.nav_heart:
+                getSupportActionBar().show();
                 if(USER_SEQUENCE_NUMBER != 0)
                 {
                     toolbar.setTitle(getResources().getString(R.string.label_heart_rate));
@@ -406,6 +403,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case  R.id.nav_sensorManagements:
+                getSupportActionBar().show();
                 if(USER_SEQUENCE_NUMBER != 0) {
                     toolbar.setTitle(getResources().getString(R.string.sensor_managements_title));
                     ToolbarMenuReset();
@@ -413,6 +411,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case  R.id.nav_passwordChange:
+                getSupportActionBar().show();
                 if(USER_SEQUENCE_NUMBER != 0) {
                     toolbar.setTitle(getResources().getString(R.string.password_change_title));
                     ToolbarMenuReset();

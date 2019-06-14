@@ -35,4 +35,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.google.android.gms:play-services-places:15.0.1'
     implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.google.android.libraries.places:places:1.0.0'
 }
