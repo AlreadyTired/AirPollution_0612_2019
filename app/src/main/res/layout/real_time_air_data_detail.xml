@@ -17,11 +17,12 @@
         android:gravity="center"
         android:layout_marginTop="10dp">
         <ImageView
+            android:id="@+id/bottom_sheet_pin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_pin_drop_black_24dp"/>
         <TextView
-            android:id="@+id/datail_city"
+            android:id="@+id/bottom_sheet_city_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -29,7 +30,7 @@
             android:letterSpacing="-0.08"
             android:text="SanDiego, "/>
         <TextView
-            android:id="@+id/datail_state"
+            android:id="@+id/bottom_sheet_state_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -37,7 +38,7 @@
             android:letterSpacing="-0.08"
             android:text="CA, "/>
         <TextView
-            android:id="@+id/datail_nation"
+            android:id="@+id/bottom_sheet_nation_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -54,6 +55,7 @@
         android:layout_weight="2"
         android:paddingTop="10dp">
         <TextView
+            android:id="@+id/bottom_sheet_text_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="40sp"
@@ -77,7 +79,7 @@
             android:layout_weight="1"
             android:gravity="bottom|start">
             <TextView
-                android:id="@+id/temperature_detail_txv"
+                android:id="@+id/bottom_sheet_temp_display"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="16sp"
@@ -91,9 +93,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:gravity="center">
             <TextView
+                android:id="@+id/bottom_sheet_AQI_display"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="16sp"
@@ -105,26 +109,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="right|bottom">
+            android:layout_weight="1">
             <TextView
+                android:id="@+id/bottom_sheet_time_display"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="16sp"
                 android:textColor="#4c6283"
                 android:letterSpacing="-0.08"
-                android:gravity="end"
+                android:gravity="end|bottom"
                 android:text="Today\n11:00AM"/>
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2">
 
     </LinearLayout>
 

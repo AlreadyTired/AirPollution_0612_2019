@@ -4,6 +4,8 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,9 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -25,24 +25,17 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,13 +63,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
@@ -91,6 +83,12 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
     GoogleMap mMap;
     GpsInfo gpsInfo;
     Context context;
+
+    //Bottom Sheet UI
+    private TextView BottomAqiTxt, BottomTimeTxt, BottomCityTxt, BottomStateTxt, BottomNationTxt, BottomTexttxt, BottomTempTxt;
+    Geocoder geocoder;
+    List<Address> address;
+    private ImageView BottomPin;
 
     //AutoComplete
     AutoCompleteTextView autoCompleteTextView;
@@ -114,7 +112,7 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
 
     private BottomSheetBehavior bottomSheetBehavior;
     private MaterialCardView bottomSheet;
-    private TextView coDetailTxv, o3DetailTxv, no2DetailTxv, so2DetailTxv, pm25DetailTxv, tempDetailTxv;
+    private TextView coDetailTxv, o3DetailTxv, no2DetailTxv, so2DetailTxv, pm25DetailTxv;
     private CircularProgressBar coDetailProgress, o3DetailProgress, no2DetailProgress, so2DetailProgress, pm25DetailProgress, tempDetailProgress;
 
     private float mMapZoomLevel = 14;
@@ -179,9 +177,9 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
 
 //        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.realTimeAirDataList);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//
 //        recyclerView.setAdapter(new RealTimeDataListAdapter(mRealTimeItems, context));
 
+        geocoder = new Geocoder(getContext());
         bottomSheet = (MaterialCardView) view.findViewById(R.id.real_time_air_bottom_view);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(
@@ -200,12 +198,20 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
             }
         });
 
+        BottomAqiTxt = (TextView) view.findViewById(R.id.bottom_sheet_AQI_display);
+        BottomTimeTxt = (TextView) view.findViewById(R.id.bottom_sheet_time_display);
+        BottomCityTxt = (TextView) view.findViewById(R.id.bottom_sheet_city_display);
+        BottomStateTxt = (TextView) view.findViewById(R.id.bottom_sheet_state_display);
+        BottomNationTxt = (TextView) view.findViewById(R.id.bottom_sheet_nation_display);
+        BottomTexttxt = (TextView) view.findViewById(R.id.bottom_sheet_text_display);
+        BottomPin = (ImageView) view.findViewById(R.id.bottom_sheet_pin);
+
         coDetailTxv = (TextView) view.findViewById(R.id.co_detail_txv);
         o3DetailTxv = (TextView) view.findViewById(R.id.o3_detail_txv);
         no2DetailTxv = (TextView) view.findViewById(R.id.no2_detail_txv);
         so2DetailTxv = (TextView) view.findViewById(R.id.so2_detail_txv);
         pm25DetailTxv = (TextView) view.findViewById(R.id.pm25_detail_txv);
-        tempDetailTxv = (TextView) view.findViewById(R.id.temperature_detail_txv);
+        BottomTempTxt = (TextView) view.findViewById(R.id.bottom_sheet_temp_display);
 
         coDetailProgress = (CircularProgressBar) view.findViewById(R.id.co_detail_progress);
         o3DetailProgress = (CircularProgressBar) view.findViewById(R.id.o3_detail_progress);
@@ -363,6 +369,7 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
                         @Override
                         public void onSuccess(FetchPlaceResponse task) {
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(task.getPlace().getLatLng()));
+                            mMap.addMarker(new MarkerOptions().position(task.getPlace().getLatLng()));
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -639,25 +646,84 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         });
 
     }
-    private void setBottomSheetItem(int itemIndex){
-        SimpleDateFormat sensingTimeFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm");
-        sensingTimeFormat.setTimeZone(java.util.TimeZone.getTimeZone("GMT-7"));
-        Date sensingDate = new Date(Long.parseLong(mRealTimeItems.get(itemIndex).timestamp));
-        String wifiTime = mRealTimeItems.get(itemIndex).wifiMacAddress + " (" +
-                sensingTimeFormat.format(sensingDate) +")";
+    private void setBottomSheetItem(int itemIndex)
+    {
+        String City= "",State="",Nation="N/A";
+        String currentLocationAddress = "Can't find location address";
+        try{
+            address = geocoder.getFromLocation(mRealTimeItems.get(itemIndex).latitude,mRealTimeItems.get(itemIndex).longitude,1);
+            if(address != null && address.size() > 0)
+            {
+                currentLocationAddress = address.get(0).getAddressLine(0);
+                Log.d("TEST",currentLocationAddress);
 
+                String[] parsing = currentLocationAddress.split(",");
+                Log.d("TEST",String.valueOf(parsing.length));
+                if(parsing.length == 0)
+                {
+                    Nation = currentLocationAddress;
+                }
+                else
+                {
+                    for(int i=parsing.length-1;i>=0;i--)
+                    {
+                        if(i == parsing.length-1) { Nation = parsing[i]; }
+                        else if( i == parsing.length-2) { State =" " + parsing[i].split(" ")[1]; }
+                        else if( i == parsing.length-3) { City = parsing[i]; }
+                    }
+                }
+            }
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        BottomTempTxt.setText(mRealTimeItems.get(itemIndex).temperature + "°C");
+        BottomTimeTxt.setText(setBottomSheetTime(itemIndex));
+        BottomAqiTxt.setText("AQI\n" + mRealTimeItems.get(itemIndex).mHighestValue);
+        BottomTexttxt.setText(mRealTimeItems.get(itemIndex).mExpression);
+        BottomCityTxt.setText(City);
+        BottomStateTxt.setText(State);
+        BottomNationTxt.setText(Nation);
+        BottomPin.setImageResource(mRealTimeItems.get(itemIndex).getPinColorID(mRealTimeItems.get(itemIndex).mHighestValue));
         coDetailTxv.setText(mRealTimeItems.get(itemIndex).coAqi);
         o3DetailTxv.setText(mRealTimeItems.get(itemIndex).o3Aqi);
         no2DetailTxv.setText(mRealTimeItems.get(itemIndex).no2Aqi);
         so2DetailTxv.setText(mRealTimeItems.get(itemIndex).so2Aqi);
         pm25DetailTxv.setText(mRealTimeItems.get(itemIndex).pm25);
-        tempDetailTxv.setText(mRealTimeItems.get(itemIndex).temperature);
         progressChanger(coDetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).coAqi));
         progressChanger(o3DetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).o3Aqi));
         progressChanger(no2DetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).no2Aqi));
         progressChanger(so2DetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).so2Aqi));
         progressChanger(pm25DetailProgress,Integer.parseInt(mRealTimeItems.get(itemIndex).pm25));
     }
+
+    //For current Time & Data Time compare and then set Time
+    private String setBottomSheetTime(int itemIndex)
+    {
+        SimpleDateFormat sensingTimeFormat = new SimpleDateFormat("MM-dd-yyyy");
+        sensingTimeFormat.setTimeZone(java.util.TimeZone.getTimeZone("GMT-7"));
+        Date sensingDate = new Date(Long.parseLong(mRealTimeItems.get(itemIndex).timestamp));
+        String compareString = sensingTimeFormat.format(sensingDate);
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat currentDate = new SimpleDateFormat("MM-dd-yyyy");
+        currentDate.setTimeZone(java.util.TimeZone.getTimeZone("GMT-7"));
+        String currentTime = currentDate.format(date);
+        String BottomSheetDate;
+        if(currentTime.equals(compareString))
+        {
+            BottomSheetDate = "Today\n";
+        }
+        else
+        {
+            BottomSheetDate = compareString+"\n";
+        }
+        SimpleDateFormat Tsdf = new SimpleDateFormat("hh:mm aa");
+        Tsdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-7"));
+        BottomSheetDate = BottomSheetDate + Tsdf.format(sensingDate);
+        return BottomSheetDate;
+    }
+
     private void setUpCluster() {
         // Position the map.
         mMap.clear();
@@ -675,38 +741,7 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         for(int i=0; i<mRealTimeItems.size(); i++){
             mClusterManager.addItem(mRealTimeItems.get(i));
         }
-
     }
 
-    private void initAutocompletePlaceInput(){
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getActivity().getFragmentManager().findFragmentById(R.id.search_input);
 
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                String locationName = String.valueOf(place.getName());
-                Log.i("Search_result", "Place: " + locationName);
-                LatLng location = place.getLatLng();
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, mMapZoomLevel));
-                requestMessageProcess();
-                markerInitialize(location, locationName);
-
-                LatLngBounds bounds= mMap.getProjection().getVisibleRegion().latLngBounds;
-                LatLng north = bounds.northeast;
-                LatLng south = bounds.southwest;
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i("Search_result", "An error occurred: " + status);
-            }
-        });
-    }
-    public void markerInitialize(LatLng location, String locationName){
-        mMap.addMarker(new MarkerOptions().position(location).title(locationName));
-    }
 }

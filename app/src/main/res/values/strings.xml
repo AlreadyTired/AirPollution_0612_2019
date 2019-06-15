@@ -155,12 +155,12 @@
     <!--Navigation Menu Label-->
     <string name="menu_data_monitoring">Data Monitoring</string>
     <string name="menu_home">Home</string>
-    <string name="menu_air_quality_map">Air Quality Map</string>
-    <string name="menu_heart_rate">Heart Rate</string>
+    <string name="menu_air_quality_map">Air Quality Data</string>
+    <string name="menu_heart_rate">Heart Data</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_sensor_managements">Sensor Managements</string>
     <string name="menu_user_managements">User Managements</string>
-    <string name="menu_password_change">Password Change</string>
+    <string name="menu_password_change">Change Password</string>
     <string name="menu_user_deregistration">User Deregistration</string>
     <string name="menu_sign_out">Sign Out</string>
 

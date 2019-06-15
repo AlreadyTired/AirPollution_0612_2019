@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 import com.pce_mason.qi.airpollution.AppClientHeader.DefaultValue;
+import com.pce_mason.qi.airpollution.R;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +27,7 @@ public class RealTimeDataItem implements ClusterItem {
 
     protected final int mMarkerColor;
     protected final int mHighestValue;
+    protected final String mExpression;
 
     private LatLng mPosition;
     private String mTitle;
@@ -49,6 +51,7 @@ public class RealTimeDataItem implements ClusterItem {
         mPosition = new LatLng(latitude,longitude);
         mHighestValue = getHighestValue();
         mMarkerColor = getMarkerImageColor(mHighestValue);
+        mExpression = getExpression(mHighestValue);
     }
     private int getHighestValue(){
         List<Integer> values = Arrays.asList(Integer.parseInt(coAqi),Integer.parseInt(o3Aqi),
@@ -63,7 +66,24 @@ public class RealTimeDataItem implements ClusterItem {
         else if (aqiValue > 100)    return DefaultValue.COLOR_SENS_UNHEALTHY;
         else if (aqiValue > 50)     return DefaultValue.COLOR_MODERATE;
         else                        return DefaultValue.COLOR_GOOD;
-
+    }
+    private String getExpression(int aqiValue)
+    {
+        if (aqiValue > 300)         return "HAZARDOUS";
+        else if (aqiValue > 200)    return "VERY UNHEALTHY";
+        else if (aqiValue > 150)    return "UNHEALTHY";
+        else if (aqiValue > 100)    return "UNHEALTHY FOR SENSITIVE GROUPS";
+        else if (aqiValue > 50)     return "MODERATE";
+        else                        return "GOOD";
+    }
+    public int getPinColorID(int aqiValue)
+    {
+        if (aqiValue > 300)         return R.drawable.ic_aqi_hazardous;
+        else if (aqiValue > 200)    return R.drawable.ic_aqi_very_unhealthy;
+        else if (aqiValue > 150)    return R.drawable.ic_aqi_unhelthy;
+        else if (aqiValue > 100)    return R.drawable.ic_aqi_unhealty_for_sensi;
+        else if (aqiValue > 50)     return R.drawable.ic_aqi_moderate;
+        else                        return R.drawable.ic_aqi_good;
     }
 
     public int getMarkerColor(){return mMarkerColor;}
