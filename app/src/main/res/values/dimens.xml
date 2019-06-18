@@ -23,7 +23,7 @@
     <dimen name="custom_marker_padding">2dp</dimen>
 
     <!--Real Time Data Detail View-->
-    <dimen name="real_time_detail_wifi">14dp</dimen>
+    <dimen name="real_time_detail_wifi">28dp</dimen>
     <dimen name="sgu_layout_padding">16dp</dimen>
     <dimen name="textinput_leftmargin">5dp</dimen>
     <dimen name="sgu_layout_bottom_margin">10dp</dimen>

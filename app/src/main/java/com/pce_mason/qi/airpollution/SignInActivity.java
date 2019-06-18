@@ -69,9 +69,8 @@ public class SignInActivity extends AppCompatActivity {
     private String userId = "userEmail";
 
     // UI references.
-    private TextInputEditText mEmailView;
     private TextInputLayout mEmailLayout, mPasswordLayout;
-    private EditText mPasswordView;
+    private EditText mPasswordView, mEmailView;
     private View mProgressView;
     private LinearLayout signInMainLayout, signInLayout;
     private int temporaryClientId;
@@ -105,7 +104,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
         // Set up the signIn form.
-        mEmailView = (TextInputEditText) findViewById(R.id.SignInEmail);
+        mEmailView = (EditText) findViewById(R.id.SignInEmail);
         mEmailLayout = (TextInputLayout)findViewById(R.id.SignInEmailLayout);
         mPasswordLayout = (TextInputLayout)findViewById(R.id.SignInPasswordLayout);
 

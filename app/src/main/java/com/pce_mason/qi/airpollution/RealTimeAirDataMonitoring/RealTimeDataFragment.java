@@ -4,6 +4,11 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -13,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
@@ -35,6 +41,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -84,6 +92,10 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
     GpsInfo gpsInfo;
     Context context;
 
+    //Marker
+    RealTimeDataItem Past_selected_Item = null;
+    Marker Past_selected_marker = null;
+
     //Bottom Sheet UI
     private TextView BottomAqiTxt, BottomTimeTxt, BottomCityTxt, BottomStateTxt, BottomNationTxt, BottomTexttxt, BottomTempTxt;
     Geocoder geocoder;
@@ -113,7 +125,7 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
     private BottomSheetBehavior bottomSheetBehavior;
     private MaterialCardView bottomSheet;
     private TextView coDetailTxv, o3DetailTxv, no2DetailTxv, so2DetailTxv, pm25DetailTxv;
-    private CircularProgressBar coDetailProgress, o3DetailProgress, no2DetailProgress, so2DetailProgress, pm25DetailProgress, tempDetailProgress;
+    private CircularProgressBar coDetailProgress, o3DetailProgress, no2DetailProgress, so2DetailProgress, pm25DetailProgress;
 
     private float mMapZoomLevel = 14;
 
@@ -174,10 +186,6 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
 
         }
         startDataRefresher();
-
-//        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.realTimeAirDataList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//        recyclerView.setAdapter(new RealTimeDataListAdapter(mRealTimeItems, context));
 
         geocoder = new Geocoder(getContext());
         bottomSheet = (MaterialCardView) view.findViewById(R.id.real_time_air_bottom_view);
@@ -611,31 +619,6 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
 //        googleMap.addMarker(markerOptions);
 //        googleMap.moveCamera(CameraUpdateFactory.newLatLng(QI));
 //        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsInfo.getLatitude(), gpsInfo.getLongitude()), mMapZoomLevel));
-//        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle_custom));
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                for(int i=0; i<mRealTimeItems.size(); i++){
-                    if (mRealTimeItems.get(i).wifiMacAddress.equals(marker.getTitle())) {
-                        setBottomSheetItem(i);
-                        bottomSheet.setVisibility(View.VISIBLE);
-                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP, peekHeightDp, getResources().getDisplayMetrics()));
-                    }
-                }
-                return false;
-            }
-        });
-        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
-            @Override
-            public void onCameraMoveStarted(int i) {
-                mMapZoomLevel = googleMap.getCameraPosition().zoom;
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                Log.d("CAMERA_MOVE","MOVE");
-            }
-        });
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -644,6 +627,43 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
                 Log.d("CAMERA_MOVE","Click");
             }
         });
+        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int i) {
+                mMapZoomLevel = googleMap.getCameraPosition().zoom;
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                Log.d("CAMERA_MOVE","MOVE");
+            }
+        });
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsInfo.getLatitude(), gpsInfo.getLongitude()), mMapZoomLevel));
+//        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle_custom));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                try {
+                    if(Past_selected_marker != null)
+                    {
+                        Past_selected_marker.setIcon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, Past_selected_Item.getMarkerColor(),1f, Past_selected_Item.mHighestValue, false));
+                    }
+                    for(int i=0; i<mRealTimeItems.size(); i++){
+                        if (mRealTimeItems.get(i).wifiMacAddress.equals(marker.getTitle())) {
+                            setBottomSheetItem(i);
+                            bottomSheet.setVisibility(View.VISIBLE);
+                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                            bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, peekHeightDp, getResources().getDisplayMetrics()));
+                            marker.setIcon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, mRealTimeItems.get(i).getMarkerColor(),1f, mRealTimeItems.get(i).mHighestValue, true));
+                            Past_selected_Item = mRealTimeItems.get(i);
+                            Past_selected_marker = marker;
+                        }
+                    }
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        });
+
 
     }
     private void setBottomSheetItem(int itemIndex)
@@ -652,6 +672,7 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         String currentLocationAddress = "Can't find location address";
         try{
             address = geocoder.getFromLocation(mRealTimeItems.get(itemIndex).latitude,mRealTimeItems.get(itemIndex).longitude,1);
+            Log.d("TEST", address.toString());
             if(address != null && address.size() > 0)
             {
                 currentLocationAddress = address.get(0).getAddressLine(0);
@@ -727,6 +748,7 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
     private void setUpCluster() {
         // Position the map.
         mMap.clear();
+        Past_selected_marker = null;
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
@@ -743,5 +765,35 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId, int markerColor, float zoomRate, int AqiValue, boolean BorderChecker) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        int boundsWidth = (int)(vectorDrawable.getIntrinsicHeight() *zoomRate);
+        int boundsHeight = (int)(vectorDrawable.getIntrinsicHeight() *zoomRate);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(boundsWidth,boundsHeight,Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        vectorDrawable.setBounds(0,0,boundsWidth,boundsHeight);
+        vectorDrawable.setTint(markerColor);
+        vectorDrawable.draw(canvas);
 
+        String text = String.valueOf(AqiValue);
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(30);
+        paint.setFakeBoldText(true);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(text,bitmap.getWidth()/2,bitmap.getHeight()/2+10,paint);
+
+        if(BorderChecker)
+        {
+            Paint borderpaint = new Paint();
+            borderpaint.setARGB(255,255,255,255);
+            borderpaint.setAntiAlias(true);
+            borderpaint.setStyle(Paint.Style.STROKE);
+            borderpaint.setStrokeWidth(5);
+            canvas.drawCircle(boundsWidth/2,boundsHeight/2,38,borderpaint);
+        }
+
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
 }

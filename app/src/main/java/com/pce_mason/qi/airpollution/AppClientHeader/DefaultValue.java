@@ -28,11 +28,11 @@ public interface DefaultValue {
     String ABNORMAL_STATUS = " is(are) not working";
     String VALID_MAC_ADDRESS = "[a-fA-F0-9]{12}";
 
-    int COLOR_GOOD = Color.argb(171, 33, 224, 81);
-    int COLOR_MODERATE = Color.argb(171, 235, 232, 41);
-    int COLOR_SENS_UNHEALTHY = Color.argb(171, 241, 90, 40);
-    int COLOR_UNHEALTHY = Color.argb(171, 236, 45, 45);
-    int COLOR_VERY_UNHEALTHY = Color.argb(171, 176, 46, 224);
-    int COLOR_HAZARDOUS = Color.argb(171, 107, 13, 46);
+    int COLOR_GOOD = Color.argb(255, 33, 224, 81);
+    int COLOR_MODERATE = Color.argb(255, 235, 232, 41);
+    int COLOR_SENS_UNHEALTHY = Color.argb(255, 241, 90, 40);
+    int COLOR_UNHEALTHY = Color.argb(255, 236, 45, 45);
+    int COLOR_VERY_UNHEALTHY = Color.argb(255, 176, 46, 224);
+    int COLOR_HAZARDOUS = Color.argb(255, 107, 13, 46);
 
 }

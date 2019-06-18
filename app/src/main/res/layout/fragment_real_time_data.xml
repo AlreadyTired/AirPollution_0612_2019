@@ -87,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        app:behavior_peekHeight="50dp"
         android:id="@+id/real_time_air_bottom_view"
         app:layout_behavior="@string/bottom_sheet_behavior"
         app:cardElevation="4dp"

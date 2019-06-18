@@ -26,7 +26,7 @@ public class RealTimeDataItem implements ClusterItem {
     public double longitude;
 
     protected final int mMarkerColor;
-    protected final int mHighestValue;
+    public final int mHighestValue;
     protected final String mExpression;
 
     private LatLng mPosition;

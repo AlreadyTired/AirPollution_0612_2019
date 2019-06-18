@@ -2,6 +2,7 @@ package com.pce_mason.qi.airpollution.MapManagements;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
@@ -37,7 +39,7 @@ public class MarkerRenderer extends DefaultClusterRenderer<RealTimeDataItem> {
 //    private final ImageView mClusterImageView;
 //    private final int mDimension;
 
-    public MarkerRenderer(Context context, GoogleMap map, ClusterManager<RealTimeDataItem> clusterManager, LayoutInflater layoutInflater) {
+    public MarkerRenderer(Context context, GoogleMap map, ClusterManager<RealTimeDataItem> clusterManager, LayoutInflater layoutInflater ) {
         super(context, map, clusterManager); 
         this.context = context;
         this.mMap = map;
@@ -76,9 +78,9 @@ public class MarkerRenderer extends DefaultClusterRenderer<RealTimeDataItem> {
         float mapZoomLevel = mMap.getCameraPosition().zoom;
         float mapZoomLevelRate = (float) Math.pow(2,(mapZoomLevel-12))/1.5f*3;
 
-        mapZoomLevelRate = 3f;
-        markerOptions.icon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, realTimeData.getMarkerColor(),mapZoomLevelRate))
-                .title(realTimeData.wifiMacAddress).anchor(0.5f,0.5f);
+        mapZoomLevelRate = 1.0f;
+        markerOptions.infoWindowAnchor(100,200);
+        markerOptions.icon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, realTimeData.getMarkerColor(),mapZoomLevelRate, realTimeData.mHighestValue)).title(realTimeData.wifiMacAddress).anchor(0.5f,0.5f);
     }
 //    public MarkerOptions markerResize(RealTimeDataItem realTimeData, MarkerOptions markerOptions){
 //        float mapZoomLevel = mMap.getCameraPosition().zoom;
@@ -117,31 +119,49 @@ public class MarkerRenderer extends DefaultClusterRenderer<RealTimeDataItem> {
         return cluster.getSize() > 1;
     }
 
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId, int markerColor, float zoomRate) {
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId, int markerColor, float zoomRate, int AqiValue) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        //vector asset size is dp.
         int boundsWidth = (int)(vectorDrawable.getIntrinsicHeight() *zoomRate);
         int boundsHeight = (int)(vectorDrawable.getIntrinsicHeight() *zoomRate);
-        //set bounds and color
-        vectorDrawable.setBounds(0, 0, boundsWidth, boundsHeight);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(boundsWidth,boundsHeight,Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        vectorDrawable.setBounds(0,0,boundsWidth,boundsHeight);
         vectorDrawable.setTint(markerColor);
-
-        String text = "11";
-        Bitmap bitmap = Bitmap.createBitmap(boundsWidth, boundsHeight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.WHITE); // Text color
-        paint.setTextSize(30); // Text size
-        paint.setFakeBoldText(true);
-        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE); // Text shadow
-        Rect bounds = new Rect();
-        paint.getTextBounds(text, 0, text.length(), bounds);
-        int x = (bitmap.getWidth() - bounds.width())/2; // 10 for padding from right
-        int y = (bitmap.getHeight() - bounds.height())/2;
-        canvas.drawText(text, x, y, paint);
-
         vectorDrawable.draw(canvas);
+
+        String text = String.valueOf(AqiValue);
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(30);
+        paint.setFakeBoldText(true);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(text,bitmap.getWidth()/2,bitmap.getHeight()/2+10,paint);
+
+//        //vector asset size is dp.
+//        int boundsWidth = (int)(vectorDrawable.getIntrinsicHeight() *zoomRate);
+//        int boundsHeight = (int)(vectorDrawable.getIntrinsicHeight() *zoomRate);
+//        //set bounds and color
+//        vectorDrawable.setBounds(0, 0, boundsWidth, boundsHeight);
+//        vectorDrawable.setTint(markerColor);
+//
+//        String text = "11";
+//        Bitmap bitmap = Bitmap.createBitmap(boundsWidth, boundsHeight, Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(bitmap);
+//
+//        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        paint.setColor(Color.WHITE); // Text color
+//        paint.setTextSize(30); // Text size
+//        paint.setFakeBoldText(true);
+//        paint.setTextAlign(Paint.Align.CENTER);
+////        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE); // Text shadow
+//        Rect bounds = new Rect();
+//        paint.getTextBounds(text, 0, text.length(), bounds);
+//        int x = (bitmap.getWidth() - bounds.width())/2; // 10 for padding from right
+//        int y = (bitmap.getHeight() - bounds.height())/2;
+//        canvas.drawText(text, x, y, paint);
+//
+//        vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
