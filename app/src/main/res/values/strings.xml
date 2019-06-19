@@ -191,6 +191,12 @@
     <string name="USN_Intent_string">UserSequenceNumber</string>
     <string name="NSC_Intent_string">NumberOfSignedInCompletions</string>
     <string name="Garbage_data_for_missing_data">4294967295</string>
+    <string name="real_data_focus_AQI">AQI</string>
+    <string name="real_data_focus_PM25">PM25</string>
+    <string name="real_data_focus_CO">CO</string>
+    <string name="real_data_focus_SO2">SO2</string>
+    <string name="real_data_focus_O3">O3</string>
+    <string name="real_data_focus_NO2">NO2</string>
 
 
 </resources>

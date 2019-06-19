@@ -28,10 +28,13 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="4c0026" />
-                            <entry key="outputName" value="ic_aqi_hazardous" />
+                            <entry key="height" value="15" />
+                            <entry key="outputName" value="ic_s_so2" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\KimHyunWoo\Desktop\QI Intership\Study\Android Design\ICON\icon_airoundU.svg" />
+                            <entry key="sourceFile" value="C:\Users\KimHyunWoo\Desktop\QI Intership\Study\Android Design\ICON\s_so2.svg" />
+                            <entry key="width" value="36" />
                           </map>
                         </option>
                       </PersistentState>

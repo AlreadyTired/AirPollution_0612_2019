@@ -178,25 +178,26 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             android:layout_weight="14">
+
             <com.pce_mason.qi.airpollution.CustomInputLayout
+                android:id="@+id/SignInEmailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/Sgi_TextInput_margin"
                 android:gravity="center"
-                app:errorEnabled="true"
-                app:hintEnabled="false"
-                android:id="@+id/SignInEmailLayout">
+                android:theme="@style/TextInputLayoutSignInCustom"
+                android:layout_marginBottom="20dp"
+                app:hintEnabled="false">
 
                 <EditText
                     android:id="@+id/SignInEmail"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/Edit_Text_Height"
+                    android:background="@drawable/edittext_border_enable"
                     android:hint="@string/sign_up_email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:background="@drawable/edittext_border_enable"/>
+                    android:singleLine="true" />
 
             </com.pce_mason.qi.airpollution.CustomInputLayout>
 
@@ -214,12 +215,12 @@
                     android:id="@+id/SignInPassword"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/Edit_Text_Height"
+                    android:background="@drawable/edittext_border_enable"
                     android:hint="@string/sign_up_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:background="@drawable/edittext_border_enable"/>
+                    android:singleLine="true" />
 
             </com.pce_mason.qi.airpollution.CustomInputLayout>
         </LinearLayout>
@@ -233,7 +234,7 @@
             android:orientation="vertical">
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:text="Continue"
                 android:textSize="15sp"
                 android:textColor="@color/btn_text_basic_color"

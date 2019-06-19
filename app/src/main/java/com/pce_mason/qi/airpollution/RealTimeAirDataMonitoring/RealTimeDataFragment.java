@@ -9,14 +9,23 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +41,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +53,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -86,7 +97,7 @@ import static com.pce_mason.qi.airpollution.AppClientHeader.CustomTimer.T114;
 import static com.pce_mason.qi.airpollution.MainActivity.APP_STATE;
 import static com.pce_mason.qi.airpollution.MainActivity.StateCheck;
 
-public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback {
+public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback, LocationListener {
     private ClusterManager<RealTimeDataItem> mClusterManager;
     GoogleMap mMap;
     GpsInfo gpsInfo;
@@ -112,6 +123,7 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
     //Floating Action Button
     FloatingActionMenu materialDesignFAM;
     FloatingActionButton Fab_NO2, Fab_O3, Fab_SO2, Fab_CO, Fab_PM25, Fab_AQI, CurrentLocationFAB;
+    private String FocusValue;
 
     //Navigation bar Btn
     ImageButton MapHamBtn;
@@ -175,6 +187,12 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         stopDataRefresher();
     }
 
+    private void updateCamera(float bearing) {
+        CameraPosition oldPos = mMap.getCameraPosition();
+
+        CameraPosition pos = CameraPosition.builder(oldPos).bearing(bearing).build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -185,156 +203,34 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         }catch (InflateException e){
 
         }
-        startDataRefresher();
-
-        geocoder = new Geocoder(getContext());
-        bottomSheet = (MaterialCardView) view.findViewById(R.id.real_time_air_bottom_view);
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics()));
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View view, int i) {
-                if (materialDesignFAM.isOpened()) {
-                    materialDesignFAM.close(true);
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View view, float v) {
-
-            }
-        });
-
-        BottomAqiTxt = (TextView) view.findViewById(R.id.bottom_sheet_AQI_display);
-        BottomTimeTxt = (TextView) view.findViewById(R.id.bottom_sheet_time_display);
-        BottomCityTxt = (TextView) view.findViewById(R.id.bottom_sheet_city_display);
-        BottomStateTxt = (TextView) view.findViewById(R.id.bottom_sheet_state_display);
-        BottomNationTxt = (TextView) view.findViewById(R.id.bottom_sheet_nation_display);
-        BottomTexttxt = (TextView) view.findViewById(R.id.bottom_sheet_text_display);
-        BottomPin = (ImageView) view.findViewById(R.id.bottom_sheet_pin);
-
-        coDetailTxv = (TextView) view.findViewById(R.id.co_detail_txv);
-        o3DetailTxv = (TextView) view.findViewById(R.id.o3_detail_txv);
-        no2DetailTxv = (TextView) view.findViewById(R.id.no2_detail_txv);
-        so2DetailTxv = (TextView) view.findViewById(R.id.so2_detail_txv);
-        pm25DetailTxv = (TextView) view.findViewById(R.id.pm25_detail_txv);
-        BottomTempTxt = (TextView) view.findViewById(R.id.bottom_sheet_temp_display);
-
-        coDetailProgress = (CircularProgressBar) view.findViewById(R.id.co_detail_progress);
-        o3DetailProgress = (CircularProgressBar) view.findViewById(R.id.o3_detail_progress);
-        no2DetailProgress = (CircularProgressBar) view.findViewById(R.id.no2_detail_progress);
-        so2DetailProgress = (CircularProgressBar) view.findViewById(R.id.so2_detail_progress);
-        pm25DetailProgress = (CircularProgressBar) view.findViewById(R.id.pm25_detail_progress);
-
-        initProgress(coDetailProgress,500,0);
-        initProgress(o3DetailProgress,500,0);
-        initProgress(no2DetailProgress,500,0);
-        initProgress(so2DetailProgress,500,0);
-        initProgress(pm25DetailProgress,500,0);
-
-        //Floating Action Button
-        materialDesignFAM = (FloatingActionMenu) view.findViewById(R.id.material_design_android_floating_action_menu);
-        Fab_NO2 = (FloatingActionButton) view.findViewById(R.id.fab_NO2);
-        Fab_O3 = (FloatingActionButton) view.findViewById(R.id.fab_O3);
-        Fab_SO2 = (FloatingActionButton) view.findViewById(R.id.fab_SO2);
-        Fab_CO = (FloatingActionButton) view.findViewById(R.id.fab_CO);
-        Fab_PM25 = (FloatingActionButton) view.findViewById(R.id.fab_PM25);
-        Fab_AQI = (FloatingActionButton) view.findViewById(R.id.fab_AQI);
-        CurrentLocationFAB = (FloatingActionButton) view.findViewById(R.id.current_location);
-
-        materialDesignFAM.setOnMenuButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (materialDesignFAM.isOpened()) {
-                    materialDesignFAM.close(true);
-                } else {
-                    materialDesignFAM.open(true);
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                }
-
-            }
-        });
-        Fab_NO2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu first item clicked
-                Toast.makeText(getContext().getApplicationContext(), "FAB1", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Fab_O3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu second item clicked
-                Toast.makeText(getContext().getApplicationContext(), "FAB2", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Fab_SO2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu third item clicked
-                Toast.makeText(getContext().getApplicationContext(), "FAB3", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Fab_CO.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu third item clicked
-                Toast.makeText(getContext().getApplicationContext(), "FAB4", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Fab_PM25.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu third item clicked
-                Toast.makeText(getContext().getApplicationContext(), "FAB5", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Fab_AQI.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu third item clicked
-                Toast.makeText(getContext().getApplicationContext(), "FAB6", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        CurrentLocationFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                double Lat = gpsInfo.getLatitude();
-                double lon = gpsInfo.getLongitude();
-                LatLng latLng = new LatLng(Lat, lon);
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-            }
-        });
-
-        //This code is to open the navigation bar using the other hamburger button instead of an app bar hamburger button
-        final DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        MapHamBtn = (ImageButton) view.findViewById(R.id.Navigation_Hamburg_Btn);
-        MapHamBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-        });
-
-//        MapView map = (MapView) view.findViewById(R.id.fragmentMap);
-//        map.getMapAsync(this);
+        // GoogleMap fragment initialize
         final MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.fragmentMap);
         mapFragment.getMapAsync(this);
-//        initAutocompletePlaceInput();
 
-        //AutoCompleteTextview
-        // Setup Places Client
-        if (!Places.isInitialized()) {
-            Places.initialize(getContext().getApplicationContext(), apiKey);
-        }
+        // initial FocusValue for AQI data
+        FocusValue = getString(R.string.real_data_focus_AQI);
 
-        placesClient = Places.createClient(getContext());
-        initAutoCompleteTextView();
-        SearchBarClearBtn = (ImageButton)view.findViewById(R.id.EditTextClear);
-        SearchBarClearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                autoCompleteTextView.setText("");
-            }
-        });
+        // Bottom Sheet Initialize
+        BottomSheetInitial();
+
+        // Google Map Compass Initialize for location change
+        GoogleMapCompassInitial();
+
+        // Bottom Sheet Initialize
+        BottomSheetInitial();
+
+        // AQI Floating Action Button&Menu Initialize
+        AqiFabm_Initial();
+
+        // Current Floating Action Button Initialize
+        CurrentFAB_Initial();
+
+        // Floating search bar & included hamburger button & Search bar clear Button Initial
+        FloatingSearchLayoutInitial();
+
+        // AQI data refresh
+        startDataRefresher();
 
         return view;
     }
@@ -624,6 +520,10 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
             @Override
             public void onMapClick(LatLng latLng) {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                if (materialDesignFAM.isOpened()) {
+                    materialDesignFAM.close(true);
+                    materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                }
                 Log.d("CAMERA_MOVE","Click");
             }
         });
@@ -632,6 +532,10 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
             public void onCameraMoveStarted(int i) {
                 mMapZoomLevel = googleMap.getCameraPosition().zoom;
 //                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                if (materialDesignFAM.isOpened()) {
+                    materialDesignFAM.close(true);
+                    materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                }
                 Log.d("CAMERA_MOVE","MOVE");
             }
         });
@@ -643,15 +547,19 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
                 try {
                     if(Past_selected_marker != null)
                     {
-                        Past_selected_marker.setIcon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, Past_selected_Item.getMarkerColor(),1f, Past_selected_Item.mHighestValue, false));
+                        int MarkerValue = getMarkerValue(Past_selected_Item);
+                        int MarkerColor = getMarkerColor(Past_selected_Item,MarkerValue);
+                        Past_selected_marker.setIcon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, MarkerColor,1f, MarkerValue, false));
                     }
                     for(int i=0; i<mRealTimeItems.size(); i++){
                         if (mRealTimeItems.get(i).wifiMacAddress.equals(marker.getTitle())) {
+                            int mMarkerValue = getMarkerValue(mRealTimeItems.get(i));
+                            int mMarkerColor = getMarkerColor(mRealTimeItems.get(i),mMarkerValue);
                             setBottomSheetItem(i);
                             bottomSheet.setVisibility(View.VISIBLE);
                             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                             bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, peekHeightDp, getResources().getDisplayMetrics()));
-                            marker.setIcon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, mRealTimeItems.get(i).getMarkerColor(),1f, mRealTimeItems.get(i).mHighestValue, true));
+                            marker.setIcon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, mMarkerColor,1f, mMarkerValue, true));
                             Past_selected_Item = mRealTimeItems.get(i);
                             Past_selected_marker = marker;
                         }
@@ -663,9 +571,43 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
                 return false;
             }
         });
-
-
     }
+
+    public int getMarkerValue(RealTimeDataItem item)
+    {
+        int MarkerValue = item.mHighestValue;;
+        if(FocusValue.equals(context.getString(R.string.real_data_focus_NO2)))
+        {
+            MarkerValue = Integer.valueOf(item.no2Aqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_O3)))
+        {
+            MarkerValue = Integer.valueOf(item.o3Aqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_SO2)))
+        {
+            MarkerValue = Integer.valueOf(item.so2Aqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_CO)))
+        {
+            MarkerValue = Integer.valueOf(item.coAqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_PM25)))
+        {
+            MarkerValue = Integer.valueOf(item.pm25);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_AQI)))
+        {
+            MarkerValue = item.mHighestValue;
+        }
+        return MarkerValue;
+    }
+    public int getMarkerColor(RealTimeDataItem item, int AQIValue)
+    {
+        int mMarkerColor = item.getMarkerImageColor(AQIValue);;
+        return mMarkerColor;
+    }
+
     private void setBottomSheetItem(int itemIndex)
     {
         String City= "",State="",Nation="N/A";
@@ -756,13 +698,18 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
 
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
-        mClusterManager.setRenderer(new MarkerRenderer(context,mMap,mClusterManager,getLayoutInflater()));
+        mClusterManager.setRenderer(new MarkerRenderer(context,mMap,mClusterManager,getLayoutInflater(),FocusValue));
         mMap.setOnCameraIdleListener(mClusterManager);
 
         // Add cluster items (markers) to the cluster manager.
         for(int i=0; i<mRealTimeItems.size(); i++){
             mClusterManager.addItem(mRealTimeItems.get(i));
         }
+
+        double Lat = gpsInfo.getLatitude();
+        double lon = gpsInfo.getLongitude();
+        LatLng latLng = new LatLng(Lat, lon);
+        mMap.addMarker(new MarkerOptions().position(latLng).icon(bitmapDescriptorMakeCurrentPointWithVector(getContext(),R.drawable.ic_out_range)));
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId, int markerColor, float zoomRate, int AqiValue, boolean BorderChecker) {
@@ -780,7 +727,6 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setTextSize(30);
-        paint.setFakeBoldText(true);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(text,bitmap.getWidth()/2,bitmap.getHeight()/2+10,paint);
 
@@ -795,5 +741,244 @@ public class RealTimeDataFragment extends Fragment implements OnMapReadyCallback
         }
 
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private BitmapDescriptor bitmapDescriptorMakeCurrentPointWithVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        Paint paint = new Paint();
+        paint.setARGB(255,76,98,131);
+        canvas.drawCircle(vectorDrawable.getIntrinsicWidth()/2, vectorDrawable.getIntrinsicHeight()/2,11,paint);
+        Paint borderpaint = new Paint();
+        borderpaint.setARGB(255,255,255,255);
+        borderpaint.setAntiAlias(true);
+        borderpaint.setStyle(Paint.Style.STROKE);
+        borderpaint.setStrokeWidth(5);
+        canvas.drawCircle(vectorDrawable.getIntrinsicWidth()/2,vectorDrawable.getIntrinsicHeight()/2,11,borderpaint);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    //method to convert your text to image
+    public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextSize(textSize);
+        paint.setColor(textColor);
+        paint.setFakeBoldText(true);
+        paint.setTextAlign(Paint.Align.LEFT);
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.0f); // round
+        int height = (int) (baseline + paint.descent() + 0.0f);
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 0, baseline, paint);
+        return image;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    public void BottomSheetInitial()
+    {
+        geocoder = new Geocoder(getContext());
+
+        bottomSheet = (MaterialCardView) view.findViewById(R.id.real_time_air_bottom_view);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics()));
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
+                if (materialDesignFAM.isOpened()) {
+                    materialDesignFAM.close(true);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+
+            }
+        });
+
+        BottomAqiTxt = (TextView) view.findViewById(R.id.bottom_sheet_AQI_display);
+        BottomTimeTxt = (TextView) view.findViewById(R.id.bottom_sheet_time_display);
+        BottomCityTxt = (TextView) view.findViewById(R.id.bottom_sheet_city_display);
+        BottomStateTxt = (TextView) view.findViewById(R.id.bottom_sheet_state_display);
+        BottomNationTxt = (TextView) view.findViewById(R.id.bottom_sheet_nation_display);
+        BottomTexttxt = (TextView) view.findViewById(R.id.bottom_sheet_text_display);
+        BottomPin = (ImageView) view.findViewById(R.id.bottom_sheet_pin);
+
+        coDetailTxv = (TextView) view.findViewById(R.id.co_detail_txv);
+        o3DetailTxv = (TextView) view.findViewById(R.id.o3_detail_txv);
+        no2DetailTxv = (TextView) view.findViewById(R.id.no2_detail_txv);
+        so2DetailTxv = (TextView) view.findViewById(R.id.so2_detail_txv);
+        pm25DetailTxv = (TextView) view.findViewById(R.id.pm25_detail_txv);
+        BottomTempTxt = (TextView) view.findViewById(R.id.bottom_sheet_temp_display);
+
+        coDetailProgress = (CircularProgressBar) view.findViewById(R.id.co_detail_progress);
+        o3DetailProgress = (CircularProgressBar) view.findViewById(R.id.o3_detail_progress);
+        no2DetailProgress = (CircularProgressBar) view.findViewById(R.id.no2_detail_progress);
+        so2DetailProgress = (CircularProgressBar) view.findViewById(R.id.so2_detail_progress);
+        pm25DetailProgress = (CircularProgressBar) view.findViewById(R.id.pm25_detail_progress);
+
+        initProgress(coDetailProgress,500,0);
+        initProgress(o3DetailProgress,500,0);
+        initProgress(no2DetailProgress,500,0);
+        initProgress(so2DetailProgress,500,0);
+        initProgress(pm25DetailProgress,500,0);
+    }
+
+    public void GoogleMapCompassInitial()
+    {
+        final ViewGroup parent = (ViewGroup) view.findViewById(Integer.parseInt("1")).getParent();
+        View compassBtn = parent.getChildAt(4);
+        RelativeLayout.LayoutParams CompRlp = (RelativeLayout.LayoutParams)compassBtn.getLayoutParams();
+        CompRlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        CompRlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        CompRlp.setMargins(0, 105, 0, 0);
+    }
+
+    public void AqiFabm_Initial()
+    {
+        //Floating Action Button
+        materialDesignFAM = (FloatingActionMenu) view.findViewById(R.id.material_design_android_floating_action_menu);
+        Fab_NO2 = (FloatingActionButton) view.findViewById(R.id.fab_NO2);
+        Fab_O3 = (FloatingActionButton) view.findViewById(R.id.fab_O3);
+        Fab_SO2 = (FloatingActionButton) view.findViewById(R.id.fab_SO2);
+        Fab_CO = (FloatingActionButton) view.findViewById(R.id.fab_CO);
+        Fab_PM25 = (FloatingActionButton) view.findViewById(R.id.fab_PM25);
+        Fab_AQI = (FloatingActionButton) view.findViewById(R.id.fab_AQI);
+
+        materialDesignFAM.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (materialDesignFAM.isOpened()) {
+                    materialDesignFAM.close(true);
+                    materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                } else {
+                    materialDesignFAM.open(true);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_fab_add);
+                }
+
+            }
+        });
+        Fab_NO2.setImageBitmap(textAsBitmap("NO2",15,Color.BLACK));
+        Fab_O3.setImageBitmap(textAsBitmap("O3",20,Color.BLACK));
+        Fab_SO2.setImageBitmap(textAsBitmap("SO2",15,Color.BLACK));
+        Fab_CO.setImageBitmap(textAsBitmap("CO",20,Color.BLACK));
+        Fab_PM25.setImageBitmap(textAsBitmap("PM25",14,Color.BLACK));
+        Fab_AQI.setImageBitmap(textAsBitmap("AQI",18,Color.BLACK));
+
+        View.OnClickListener FAB_listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId())
+                {
+                    case R.id.fab_NO2:
+                        FocusValue = getString(R.string.real_data_focus_NO2);
+                        materialDesignFAM.close(true);
+                        materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                        break;
+                    case R.id.fab_O3:
+                        FocusValue = getString(R.string.real_data_focus_O3);
+                        materialDesignFAM.close(true);
+                        materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                        break;
+                    case R.id.fab_SO2:
+                        FocusValue = getString(R.string.real_data_focus_SO2);
+                        materialDesignFAM.close(true);
+                        materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                        break;
+                    case R.id.fab_CO:
+                        FocusValue = getString(R.string.real_data_focus_CO);
+                        materialDesignFAM.close(true);
+                        materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                        break;
+                    case R.id.fab_PM25:
+                        FocusValue = getString(R.string.real_data_focus_PM25);
+                        materialDesignFAM.close(true);
+                        materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                        break;
+                    case R.id.fab_AQI:
+                        FocusValue = getString(R.string.real_data_focus_AQI);
+                        materialDesignFAM.close(true);
+                        materialDesignFAM.getMenuIconView().setImageResource(R.drawable.ic_l_aqi);
+                        break;
+                }
+                setUpCluster();
+            }
+        };
+
+        Fab_NO2.setOnClickListener(FAB_listener);
+        Fab_O3.setOnClickListener(FAB_listener);
+        Fab_SO2.setOnClickListener(FAB_listener);
+        Fab_CO.setOnClickListener(FAB_listener);
+        Fab_PM25.setOnClickListener(FAB_listener);
+        Fab_AQI.setOnClickListener(FAB_listener);
+    }
+
+    public void CurrentFAB_Initial()
+    {
+        CurrentLocationFAB = (FloatingActionButton) view.findViewById(R.id.current_location);
+        CurrentLocationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double Lat = gpsInfo.getLatitude();
+                double lon = gpsInfo.getLongitude();
+                LatLng latLng = new LatLng(Lat, lon);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+            }
+        });
+    }
+
+    public void FloatingSearchLayoutInitial()
+    {
+        //This code is to open the navigation bar using the other hamburger button instead of an app bar hamburger button
+        final DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        MapHamBtn = (ImageButton) view.findViewById(R.id.Navigation_Hamburg_Btn);
+        MapHamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+
+        //AutoCompleteTextview
+        // Setup Places Client
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext().getApplicationContext(), apiKey);
+        }
+
+        placesClient = Places.createClient(getContext());
+        initAutoCompleteTextView();
+        SearchBarClearBtn = (ImageButton)view.findViewById(R.id.EditTextClear);
+        SearchBarClearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoCompleteTextView.setText("");
+            }
+        });
     }
 }

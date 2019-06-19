@@ -113,7 +113,7 @@
         fab:menu_colorPressed="#555555"
         fab:menu_colorRipple="#99d4d4d4"
         fab:menu_fab_size="normal"
-        fab:menu_icon="@drawable/ic_fab_add"
+        fab:menu_icon="@drawable/ic_l_aqi"
         fab:menu_openDirection="up"
         fab:menu_shadowColor="#66aff198"
         fab:menu_shadowRadius="4dp"
@@ -125,15 +125,13 @@
             android:id="@+id/fab_NO2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_fab_add"
             app:fab_colorNormal="#ffffff"
-            fab:fab_size="mini" />
+            fab:fab_size="mini"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_O3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_home"
             app:fab_colorNormal="#ffffff"
             fab:fab_size="mini" />
 
@@ -141,7 +139,6 @@
             android:id="@+id/fab_SO2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_heart"
             app:fab_colorNormal="#ffffff"
             fab:fab_size="mini" />
 
@@ -149,7 +146,6 @@
             android:id="@+id/fab_CO"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_heart"
             app:fab_colorNormal="#ffffff"
             fab:fab_size="mini" />
 
@@ -157,7 +153,6 @@
             android:id="@+id/fab_PM25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_heart"
             app:fab_colorNormal="#ffffff"
             fab:fab_size="mini" />
 
@@ -165,7 +160,6 @@
             android:id="@+id/fab_AQI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_heart"
             app:fab_colorNormal="#ffffff"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>

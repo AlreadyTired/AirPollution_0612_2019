@@ -59,7 +59,7 @@ public class RealTimeDataItem implements ClusterItem {
                 Integer.parseInt(pm10));
         return Collections.max(values);
     }
-    private int getMarkerImageColor(int aqiValue){
+    public int getMarkerImageColor(int aqiValue){
         if (aqiValue > 300)         return DefaultValue.COLOR_HAZARDOUS;
         else if (aqiValue > 200)    return DefaultValue.COLOR_VERY_UNHEALTHY;
         else if (aqiValue > 150)    return DefaultValue.COLOR_UNHEALTHY;

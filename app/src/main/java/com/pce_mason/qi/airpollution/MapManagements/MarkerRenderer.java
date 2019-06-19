@@ -31,6 +31,7 @@ public class MarkerRenderer extends DefaultClusterRenderer<RealTimeDataItem> {
     Context context;
     GoogleMap mMap;
     ClusterManager<RealTimeDataItem> mapItemClusterManager;
+    String FocusValue;
 
     private ClusterManager<RealTimeDataItem> mClusterManager;
 //    private final IconGenerator mIconGenerator;
@@ -39,11 +40,12 @@ public class MarkerRenderer extends DefaultClusterRenderer<RealTimeDataItem> {
 //    private final ImageView mClusterImageView;
 //    private final int mDimension;
 
-    public MarkerRenderer(Context context, GoogleMap map, ClusterManager<RealTimeDataItem> clusterManager, LayoutInflater layoutInflater ) {
+    public MarkerRenderer(Context context, GoogleMap map, ClusterManager<RealTimeDataItem> clusterManager, LayoutInflater layoutInflater, String FocusValue ) {
         super(context, map, clusterManager); 
         this.context = context;
         this.mMap = map;
         this.mapItemClusterManager = clusterManager;
+        this.FocusValue = FocusValue;
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
@@ -77,10 +79,35 @@ public class MarkerRenderer extends DefaultClusterRenderer<RealTimeDataItem> {
 //        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon1)).title(realTimeData.wifiMacAddress).anchor(0.5f,0.5f);
         float mapZoomLevel = mMap.getCameraPosition().zoom;
         float mapZoomLevelRate = (float) Math.pow(2,(mapZoomLevel-12))/1.5f*3;
-
+        int MarkerValue = realTimeData.mHighestValue;
+        if(FocusValue.equals(context.getString(R.string.real_data_focus_NO2)))
+        {
+            MarkerValue = Integer.valueOf(realTimeData.no2Aqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_O3)))
+        {
+            MarkerValue = Integer.valueOf(realTimeData.o3Aqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_SO2)))
+        {
+            MarkerValue = Integer.valueOf(realTimeData.so2Aqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_CO)))
+        {
+            MarkerValue = Integer.valueOf(realTimeData.coAqi);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_PM25)))
+        {
+            MarkerValue = Integer.valueOf(realTimeData.pm25);
+        }
+        else if(FocusValue.equals(context.getString(R.string.real_data_focus_AQI)))
+        {
+            MarkerValue = realTimeData.mHighestValue;
+        }
+        int MarkerColor = realTimeData.getMarkerImageColor(MarkerValue);;
         mapZoomLevelRate = 1.0f;
         markerOptions.infoWindowAnchor(100,200);
-        markerOptions.icon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, realTimeData.getMarkerColor(),mapZoomLevelRate, realTimeData.mHighestValue)).title(realTimeData.wifiMacAddress).anchor(0.5f,0.5f);
+        markerOptions.icon(bitmapDescriptorFromVector(context,R.drawable.marker_circle_50dp, MarkerColor,mapZoomLevelRate, MarkerValue)).title(realTimeData.wifiMacAddress).anchor(0.5f,0.5f);
     }
 //    public MarkerOptions markerResize(RealTimeDataItem realTimeData, MarkerOptions markerOptions){
 //        float mapZoomLevel = mMap.getCameraPosition().zoom;

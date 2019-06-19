@@ -8,12 +8,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.GeomagneticField;
+import android.hardware.SensorEvent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+
+import com.pce_mason.qi.airpollution.RealTimeAirDataMonitoring.RealTimeDataFragment;
 
 public class GpsInfo extends Service implements LocationListener {
 
@@ -175,7 +179,6 @@ public class GpsInfo extends Service implements LocationListener {
 
     public void onLocationChanged(Location location) {
         // TODO Auto-generated method stub
-
     }
 
     public void onStatusChanged(String provider, int status, Bundle extras) {
